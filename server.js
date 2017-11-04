@@ -302,7 +302,7 @@ var findProcedures = function(db, callback, firstName, lastName) {
 }
 
 var findSymptoms = function(db, callback, firstName, lastName) {
-  db.collection('Symptoms', function (err,collection)) {
+  db.collection('Symptoms', function (err,collection){
     collection.find({"Name":firstName, "LastName":lastName}, {"Type":1}).toArray(function(err,result) {
       assert.equal(ee,null);
       let date;

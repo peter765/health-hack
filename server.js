@@ -53,7 +53,7 @@ app.post('/webhook', (req, res) => {
       //TODO: Any messenger actions needed to function, send appropriate content to to the action handler
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event.message);
-        connectionDB(sender_psid); 
+        //connectionDB(sender_psid); 
       } else if (webhook_event.postback) {
         
         handlePostback(sender_psid, webhook_event.postback);

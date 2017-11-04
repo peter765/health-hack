@@ -1,21 +1,23 @@
 
- /* Messenger Platform Quick Start Tutorial
- *
- * This is the completed code for the Messenger Platform quick start tutorial
- *
- * https://developers.facebook.com/docs/messenger-platform/getting-started/quick-start/
- *
- * To run this code, you must do the following:
- *
- * 1. Deploy this code to a server running Node.js
- * 2. Run npm install
- * 3. Update the VERIFY_TOKEN
- * 4. Add your PAGE_ACCESS_TOKEN to your environment vars
- *
- */
+/* Messenger Platform Quick Start Tutorial
+*
+* This is the completed code for the Messenger Platform quick start tutorial
+*
+* https://developers.facebook.com/docs/messenger-platform/getting-started/quick-start/
+*
+* To run this code, you must do the following:
+*
+* 1. Deploy this code to a server running Node.js
+* 2. Run npm install
+* 3. Update the VERIFY_TOKEN
+* 4. Add your PAGE_ACCESS_TOKEN to your environment vars
+*
+*/
 
 'use strict';
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
+
 // Imports dependencies and set up http server
 const
   request = require('request'),
@@ -37,7 +39,7 @@ app.post('/webhook', (req, res) => {
   // Check the webhook event is from a Page subscription
   if (body.object === 'page') {
 
-    body.entry.forEach(function(entry) {
+    body.entry.forEach(function (entry) {
 
       // Gets the body of the webhook event
       let webhook_event = entry.messaging[0];
@@ -111,19 +113,19 @@ app.get('/webhook', (req, res) => {
 
 
 //Finds the patient Profile
-var findPrescriptions = function(db, callback, firstName, lastName) {
-  db.collection('Prescriptions',function (err,collection) {
-    collection.find({"Name":firstName,"LastName":lastName},{"Date":1,"Prescription":1}).toArray(function(err, results) {
+var findPrescriptions = function (db, callback, firstName, lastName) {
+  db.collection('Prescriptions', function (err, collection) {
+    collection.find({ "Name": firstName, "LastName": lastName }, { "Date": 1, "Prescription": 1 }).toArray(function (err, results) {
       assert.equal(err, null);
       let date;
       let pres;
       let total;
       let ret;
       for (var i = 0; i < results.length; i++) {
-          date = results[i].Date;
-          pres = results[i].Prescription;
-          total = date + " - " + pres;
-          ret += total + "\n";
+        date = results[i].Date;
+        pres = results[i].Prescription;
+        total = date + " - " + pres;
+        ret += total + "\n";
       }
       console.log("Successful Prescription");
       console.log(ret);
@@ -133,9 +135,9 @@ var findPrescriptions = function(db, callback, firstName, lastName) {
 }
 
 
-var findDOB = function(db, callback) {
-  db.collection('Patients',function (err,collection) {
-    collection.find({"Name":"Peter", "LastName" : "John"}, {"DateOfBirth":1}).toArray(function(err, results) {
+var findDOB = function (db, callback) {
+  db.collection('Patients', function (err, collection) {
+    collection.find({ "Name": "Peter", "LastName": "John" }, { "DateOfBirth": 1 }).toArray(function (err, results) {
       let ret = results[0].DateOfBirth;
       callback(ret);
     });
@@ -143,16 +145,16 @@ var findDOB = function(db, callback) {
 
 }
 
-var findProfile = function(db, callback, firstName, lastName) {
-  db.collection('Patients',function (err,collection) {
-    collection.find({"Name":firstName,"LastName":lastName},{"Name":1, "LastName":1,"DateOfBirth":1,"Ethnicity":1,"Address":1, "Allergies":1, "FamilyHistory":1, "PhoneNumber":1, "Height":1, "Weight":1}).toArray(function(err, results) {
+var findProfile = function (db, callback, firstName, lastName) {
+  db.collection('Patients', function (err, collection) {
+    collection.find({ "Name": firstName, "LastName": lastName }, { "Name": 1, "LastName": 1, "DateOfBirth": 1, "Ethnicity": 1, "Address": 1, "Allergies": 1, "FamilyHistory": 1, "PhoneNumber": 1, "Height": 1, "Weight": 1 }).toArray(function (err, results) {
       assert.equal(err, null);
-      let ret = results[0].Name + " " + results[0].LastName + "\n Date of Birth: " + results[0].DateOfBirth + "\n Ethnicity: " + results[0].Ethnicity + "\n Address: " + results[0].Address+ "\n Phone Number: " + results[0].PhoneNumber + "\n Allergies: " + results[0].Allergies + "\n Family History" + results[0].FamilyHistory + "\n Height: " + results[0].Height + "\n Weight: " + results[0].Weight;
+      let ret = results[0].Name + " " + results[0].LastName + "\n Date of Birth: " + results[0].DateOfBirth + "\n Ethnicity: " + results[0].Ethnicity + "\n Address: " + results[0].Address + "\n Phone Number: " + results[0].PhoneNumber + "\n Allergies: " + results[0].Allergies + "\n Family History" + results[0].FamilyHistory + "\n Height: " + results[0].Height + "\n Weight: " + results[0].Weight;
 
       let response;
       let asdf = "";
       let names = "";
-      
+
       console.log("Successful Profile");
       console.log(ret);
       callback(ret);
@@ -177,8 +179,8 @@ function handleMessage(sender_psid, received_message) {
     // will be added to the body of our request to the Send API
 
 
-  // Create the payload for a basic text message, which
-  // will be added to the body of our request to the Send API
+    // Create the payload for a basic text message, which
+    // will be added to the body of our request to the Send API
     let nlptxt = JSON.stringify(received_message.nlp.entities);
     console.log(text);
 
@@ -186,138 +188,130 @@ function handleMessage(sender_psid, received_message) {
       "text": `You sent the message: "${received_message.text}". ` + nlptxt
     }
     //Setting up the connection to MongoDB
-    var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
 
-    if(nlptxt) {
+    if (nlptxt) {
       let firstName;
       let lastName;
       let document;
       let field;
       let intent;
-      if(nlptxt.given_name) {
-        firstName = nlptxt.given_name.value;
-        console.log(firstName)
+      let sendUser = callUserAPI(received_message.sender_psid);
+      if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
+        if (nlptxt.given_name) {
+          firstName = nlptxt.given_name.value;
+          console.log(firstName)
+        }
+        if (nlptxt.family_name) {
+          lastName = nlptxt.family_name.value;
+          console.log(lastName)
+        }
+      } else {
+        firstName = sendUser.first_name; //call following methods for sending user
+        lastName = sendUser.last_name;
       }
-      if(nlptxt.family_name) {
-        lastName = nlptxt.family_name.value;
-        console.log(lastName)
-      }
-      if(nlptxt.document) {
+
+      if (nlptxt.document) {
         document = nlptxt.documennt.value;
         console.log(document)
       }
-      if(nlptxt.field) {
+      if (nlptxt.field) {
         field = nlptxt.field.value;
         console.log(field)
       }
     }
-    if(nlptxt.intent) {
+    if (nlptxt.intent) {
       intent = nlptxt.intent.value;
       console.log(intent)
-      MongoDB.connect(url, function(err,db) {
+      MongoDB.connect(url, function (err, db) {
         console.log("Connected Successfully");
 
-        if(intent === "profile") { //shows patient information
+        if (intent === "profile") { //shows patient information
           //calling different handler functions
           if (!document) { //default case for profile
-            if(firstName && lastName) {
-              findProfile(db,function(results){
-                findPrescriptions(db,function(results){
-                callSendAPI(sender_psid,{text: results});
-
-                }, firstName, lastName)
-                callSendAPI(sender_psid,results);
+            if (firstName && lastName) {
+              findProfile(db, function (results) {
+                callSendAPI(sender_psid, results);
                 db.close();
               }, firstName, lastName)
             }
-          } else if(document === "tests") {
+          } else if (document === "tests") {
 
-      //calling different handler functions
-      findProfile(db,function(results){
-        callSendAPI(sender_psid,{text:results});
-        db.close();
-      })
+            //calling different handler functions
+            /*
+            findTests(db,function(results){
+              callSendAPI(sender_psid,{text:results});
+              db.close();
+            })*/
 
           } else if (document === "prescriptions") {
+            findPrescriptions(db, function (results) {
+              callSendAPI(sender_psid, { text: results });
+            }, firstName, lastName);
+            db.close();
+          }
+        } else if (document === "symptoms") {
+          findSymptoms(db, function (results) {
+            callSendAPI(sender_psid, { text: results });
+          }, firstName, lastName);
+          db.close();
 
-          } else if (document === "symptoms") {
+        } else if (document === "next steps") {
+          findNextSteps(db, function (results) {
+            callSendAPI(sender_psid, { text: results });
+          }, firstName, lastName);
+          db.close();
 
-          } else if (document === "next steps") {
+        } else if (document === "notes") {
+          findNotes(db, function (results) {
+            callSendAPI(sender_psid, { text: results });
+          }, firstName, lastName);
+          db.close();
+        }
 
 
-          } else if (document === "notes") {
+      } else if(intent === "update") { //updates patient information
+        if (isDoctor(sendUser.first_name, sendUser.last_name)) {
+          if (!field) {
+            //invalid field or default case
+          } else if (field === "height") {
+
+          } else if (field === "weight") {
+
+          } else if (field === "history") {
+
+          } else if (field === "notes") {
+
+          } else if (field === "next_steps") {
+
+          } else if (field === "symptoms") {
+
+          } else if (field === "meds") {
 
           }
+          //call update functions to database
 
-
-        } else if(intent === "update") { //updates patient information
-            if (firstName && lastName) {
-              if(!field) {
-                //invalid field or default case
-              } else if (field === "height") {
-
-              } else if (field === "weight") {
-
-              } else if (field === "history") {
-
-              } else if (field === "number") {
-
-              } else if (field === "address") {
-
-              } else if (field === "dob") {
-
-              } else if (field === "meds") {
-
-              }
-               //call update functions to database
-
-            }
-        } else if(intent === "add") {
-              //call add functions to database
-            if (firstName && lastName) {
-              //call addPatient() with default parameters
-            } else {
-              //call addPatient()
-            }
         }
-
-
-      });
-    }
-
-
-  } else if (received_message.attachments) {
-    // Get the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no",
-              }
-            ],
-          }]
+      } else if (intent === "add") {
+        if(isDoctor(sendUser.first_name, sendUser.last_name)) {
+        //call add functions to database
+        //addPatient();
         }
       }
+  });
+
+} else if (received_message.attachments) {
+  // Get the URL of the message attachment
+  let attachment_url = received_message.attachments[0].payload.url;
+  if(isDoctor(sendUser.first_name, sendUser.last_name)) {
+    MongoDB.connect(url, function (err, db) {
+      addMRIImage(db, callback, firstName, lastName)
     }
   }
+}
 
-  // Send the response message
-  callSendAPI(sender_psid, response);
+
+// Send the response message
+callSendAPI(sender_psid, response);
 }
 
 /**
@@ -327,7 +321,7 @@ function handleMessage(sender_psid, received_message) {
  */
 function handlePostback(sender_psid, received_postback) {
   console.log('ok')
-   let response;
+  let response;
   // Get the payload for the postback
   let payload = received_postback.payload;
 
@@ -375,12 +369,12 @@ function callSendAPI(sender_psid, response) {
 function callUserAPI(sender_psid) {
   //message body
   request({
-    "uri" : "https://graph.facebook.com/v2.6/" + string(sender_psid),
-    "qs" : {
-      "fields" : "first_name, last_name, profile_pic",
-      "access_token" : PAGE_ACCESS_TOKEN
+    "uri": "https://graph.facebook.com/v2.6/" + string(sender_psid),
+    "qs": {
+      "fields": "first_name, last_name, profile_pic",
+      "access_token": PAGE_ACCESS_TOKEN
     },
-    "method" : "GET"
+    "method": "GET"
   }, (err, res, body) => {
     if (!err) {
       let profileObject = JSON.parse(body);
@@ -390,4 +384,21 @@ function callUserAPI(sender_psid) {
       console.error("unable to retrieve user for id: " + string(sender_psid));
     }
   });
+}
+
+function isDoctor(firstName, lastName) {
+  /**db.collection('Doctors',function (err,collection) {
+    collection.find({"Name":firstName, "LastName" : lastName}, {"DateOfBirth":1}).toArray(function(err, results) {
+      if(results) {
+
+      }
+      callback(ret);
+    });
+  }); we be hardcodin boiz **/
+  if (firstName == "Rohit") {
+    if (lastName == "Ganesan") {
+      return True;
+    }
+  }
+  return False;
 }

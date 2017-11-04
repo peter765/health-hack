@@ -136,8 +136,8 @@ var findProfile = function(db, callback) {
       assert.equal(err, null);
       let ret = results[0].Name + " " + results[0].LastName + "\n" + results[0].DateOfBirth + "\n" + results[0].Ethnicity + "\n" + results[0].Address+ "\n" + results[0].Allergies + "\n" + results[0].FamilyHistory + "\n" + results[0].PhoneNumber + "\n" + results[0].Height + "\n" + results[0].Weight;
       let response;
-      var asdf = "";
-      var names = "";
+      let asdf = "";
+      let names = "";
       asdf = asdf.concat("Date of Birth: ", results[0].DateOfBirth, "\n", "Ethnicity: ", results[0].Ethnicity, "\n", "Address: ", results[0].Address, "\n", "Phone Number: ", results[0].PhoneNumber, "\n", "Height: ", results[0].Height, "\n", "Weight: ", results[0].Weight);
       //console.log(asdf);
       names = names.concat(results[0].LastName, ", ", results[0].Name);

@@ -148,10 +148,10 @@ var findProfile = function(db, callback) {
             "template_type": "list",
             "top_element_style": "compact",
             "elements": [
-            // {
-            //   "title": names,
-            //   "subtitle": asdf
-            // },
+            {
+              "title": names,
+              "subtitle": "test"
+            },
             {
                 "title": "Allergies",
                 "subtitle": results[0].Allergies

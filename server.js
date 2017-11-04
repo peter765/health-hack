@@ -627,20 +627,21 @@ function callSendAPI(sender_psid, response) {
 function callUserAPI(sender_psid) {
   //message body
   var params = "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
+  let nameObj;
   request({
     "uri": "https://graph.facebook.com/v2.6/" + sender_psid + params,
     "method": "GET"
   }, (err, res, body) => {
     if (!err) {
       console.log(body);
-      let profileObject = JSON.parse(body);
+      nameObj = JSON.parse(body);
       console.log(profileObject);
       console.log('user retrieved!' + profileObject.first_name);
-      return profileObject;
     } else {
       console.error("unable to retrieve user for id: " + string(sender_psid));
     }
   });
+  return nameObj;
 }
 
 function isDoctor(firstName, lastName) {

@@ -149,10 +149,10 @@ var findProfile = function(db, callback) {
             "template_type": "list",
             "top_element_style": "large",
             "elements": [
-            {
-              "title": results[0].LastName,
-              "subtitle": results[0].Name
-            },
+            // {
+            //   "title": results[0].LastName,
+            //   "subtitle": results[0].Name
+            // },
             {
               "title": "Date of Birth",
               "subtitle": results[0].DateOfBirth

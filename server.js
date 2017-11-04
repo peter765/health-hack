@@ -20,6 +20,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const 
   request = require('request'),
   express = require('express'),
+  MongoDB = require('mongodb').MongoClient,
   body_parser = require('body-parser'),
   app = express().use(body_parser.json()); // creates express http server
 
@@ -102,6 +103,31 @@ app.get('/webhook', (req, res) => {
  * @param {*} sender_psid 
  * @param {*} received_message 
  */
+
+//Setting up the connection to MongoDB
+function connectionDB(senderID) {
+
+  //Setting Up the connection
+  var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
+  MongoDB.connect(url, function(err,db) {
+    console.log("Connected Successfully");
+  
+  //calling different handler functions
+    findPatient(db,function(results){
+      callSendAPI(senderID,{text: results});
+      db.close();
+    }
+
+
+  });
+
+}
+
+//Finds the patient Profile
+var findPatient = function(db, callback) {
+
+} 
+
 function handleMessage(sender_psid, received_message) {
   let response;
   

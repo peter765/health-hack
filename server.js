@@ -137,7 +137,7 @@ var findPrescriptions = function(db, callback) {
           date = results[i].Date;
           pres = results[i].Prescription;
           total = date + " - " + pres;
-          ret += format + "\n";
+          ret += total + "\n";
       }
       console.log("Successful Prescription");
       console.log(ret);

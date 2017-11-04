@@ -136,27 +136,29 @@ var findProfile = function(db, callback) {
       assert.equal(err, null);
       let ret = results[0].Name + " " + results[0].LastName + "\n" + results[0].DateOfBirth + "\n" + results[0].Ethnicity + "\n" + results[0].Address+ "\n" + results[0].Allergies + "\n" + results[0].FamilyHistory + "\n" + results[0].PhoneNumber + "\n" + results[0].Height + "\n" + results[0].Weight;  
       let response;
-      response = {
-          "attachment":{
-            "type":"template",
-            "payload":{
-            "template_type":"receipt",
-            "recipient_name":"Stephane Crozatier",
-            "order_number":"12345678902",
-            "currency":"USD",
-            "payment_method":"Visa 2345",        
-            "order_url":"http://petersapparel.parseapp.com/order?order_id=123456",
-            "timestamp":"1428444852",         
-            "address":{
-              "street_1":"1 Hacker Way",
-              "street_2":"",
-              "city":"Menlo Park",
-              "postal_code":"94025",
-              "state":"CA",
-              "country":"US"
+     response = {
+        "message":{
+            "attachment":{
+              "type":"template",
+              "payload":{
+                "template_type":"receipt",
+                "recipient_name":"Stephane Crozatier",
+                "order_number":"12345678902",
+                "currency":"USD",
+                "payment_method":"Visa 2345",        
+                "order_url":"http://petersapparel.parseapp.com/order?order_id=123456",
+                "timestamp":"1428444852",         
+                "address":{
+                  "street_1":"1 Hacker Way",
+                  "street_2":"",
+                  "city":"Menlo Park",
+                  "postal_code":"94025",
+                  "state":"CA",
+                  "country":"US"
+              }
             }
           }
-        }
+        } 
       }
       
       

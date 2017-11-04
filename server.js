@@ -107,11 +107,26 @@ app.get('/webhook', (req, res) => {
  */
 
 
+//Setting up the connection to MongoDB
+function connectionDB(senderID) {
+
+  //Setting Up the connection
+  var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
+  MongoDB.connect(url, function(err,db) {
+    console.log("Connected Successfully");
+
+  //calling different handler functions
+    findDOB(db,function(results){
+      callSendAPI(senderID,{text: results});
+      db.close();
+    }
+
+
 
 //Finds the patient Profile
-var findPrescriptions = function(db, callback) {
+var findPrescriptions = function(db, callback, firstName, lastName) {
   db.collection('Prescriptions',function (err,collection) {
-    collection.find({"Name":"Peter","LastName":"John"},{"Date":1,"Prescription":1}).toArray(function(err, results) {
+    collection.find({"Name":firstName,"LastName":lastName},{"Date":1,"Prescription":1}).toArray(function(err, results) {
       assert.equal(err, null);
       let date;
       let pres;
@@ -237,10 +252,6 @@ function handleMessage(sender_psid, received_message) {
       })
 
 
-      findPrescriptions(db,function(results){
-          callSendAPI(sender_psid,{text: results});
-          db.close();
-       })
 
 
     });

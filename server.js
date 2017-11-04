@@ -53,7 +53,7 @@ app.post('/webhook', (req, res) => {
       //TODO: Any messenger actions needed to function, send appropriate content to to the action handler
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event.message);
-        connectionDB(sender_psid); 
+        //connectionDB(sender_psid); 
       } else if (webhook_event.postback) {
         
         handlePostback(sender_psid, webhook_event.postback);
@@ -143,7 +143,12 @@ function handleMessage(sender_psid, received_message) {
 
 
   // Checks if the message contains text
-  if (received_message.text) {    
+  if (received_message.text) {
+    var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
+    MongoDB.connect(url, function(err,db) {
+    console.log("Connected Successfully");
+    });
+    
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {

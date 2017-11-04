@@ -458,7 +458,7 @@ function handleMessage(sender_psid, received_message) {
   if(isDoctor(sendUser.first_name, sendUser.last_name)) {
     MongoDB.connect(url, function (err, db) {
       addMRIImage(db, callback, firstName, lastName)
-    }
+    });
   }
 }
 

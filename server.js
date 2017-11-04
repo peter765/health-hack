@@ -546,11 +546,7 @@ date = mm + '/' + dd + '/' + yyyy;
   let attachment_url = received_message.attachments[0].payload.url;
   if(isDoctor(sendUser.first_name, sendUser.last_name)) {
     MongoDB.connect(url, function (err, db) {
-<<<<<<< HEAD
       addMRIImage(db, callback, firstName, lastName, "MRI", date, attachment_url);
-    }
-=======
-      addMRIImage(db, callback, firstName, lastName)
     });
   }
 }

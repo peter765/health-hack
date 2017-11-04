@@ -21,6 +21,7 @@ const
   request = require('request'),
   express = require('express'),
   MongoDB = require('mongodb').MongoClient,
+  assert = require('assert'),
   body_parser = require('body-parser'),
   app = express().use(body_parser.json()); // creates express http server
 
@@ -144,10 +145,10 @@ function handleMessage(sender_psid, received_message) {
 
   // Checks if the message contains text
   if (received_message.text) {
-    var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
-    MongoDB.connect(url, function(err,db) {
-    console.log("Connected Successfully");
-    });
+    //var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
+   // MongoDB.connect(url, function(err,db) {
+    //console.log("Connected Successfully");
+    //});
     
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API

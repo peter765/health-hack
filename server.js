@@ -126,7 +126,7 @@ function connectionDB(senderID) {
 //Finds the Symptoms Profile
 var findSymptoms = function(db, callback) {
   db.collection('Symptoms', function (err,collection)) {
-    collection.find({"Name" : "Peter John"}).toArray(function(err,result) {
+    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err,result) {
       assert.equal(ee,null);
       String date;
       String symp;

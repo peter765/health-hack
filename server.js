@@ -151,7 +151,7 @@ var findProfile = function(db, callback) {
             //               "Height: " + results[0].Height + "\n" +
             //               "Weight:" + results[0].Weight
             // },
-            {
+            // {
                 "title": "Allergies",
                 "subtitle": results[0].Allergies
             },

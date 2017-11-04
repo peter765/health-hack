@@ -405,24 +405,17 @@ function handleMessage(sender_psid, received_message) {
   if(dd<10) {
     dd = '0'+dd
   }
-
   if(mm<10) {
     mm = '0'+mm
   }
-
-date = mm + '/' + dd + '/' + yyyy;
-
+  date = mm + '/' + dd + '/' + yyyy;
   /**
    * Handle All Incoming Message Intents here, using NLP intent('nlp' key in incoming message)
    */
-
-
   // Checks if the message contains text
   if (received_message.text) {
-
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-
 
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
@@ -549,7 +542,6 @@ date = mm + '/' + dd + '/' + yyyy;
       addMRIImage(db, callback, firstName, lastName, "MRI", date, attachment_url);
     });
   }
-}
 }
 
 

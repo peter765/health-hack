@@ -136,6 +136,8 @@ var findProfile = function(db, callback) {
       assert.equal(err, null);
       let ret = results[0].Name + " " + results[0].LastName + "\n" + results[0].DateOfBirth + "\n" + results[0].Ethnicity + "\n" + results[0].Address+ "\n" + results[0].Allergies + "\n" + results[0].FamilyHistory + "\n" + results[0].PhoneNumber + "\n" + results[0].Height + "\n" + results[0].Weight;
       let response;
+      var asdf = string.concat("Date of Birth: ", results[0].DateOfBirth, "\n", "Ethnicity: ", results[0].Ethnicity, "\n", "Address: ", results[0].Address, "\n", "Phone Number: ", results[0].PhoneNumber, "\n", "Height: ", results[0].Height, "\n", "Weight: ", results[0].Weight);
+      var names = string.concat(results[0].LastName, ", ", results[0].Name);
         response = {
         "attachment": {
           "type": "template",
@@ -143,9 +145,9 @@ var findProfile = function(db, callback) {
             "template_type": "list",
             "top_element_style": "compact",
             "elements": [
-            {
+              {
               "title": results[0].LastName + ", " + results[0].Name,
-              "subtitle": "Date Of Birth: " + results[0].DateOfBirth
+              "subtitle": asdf
             },
             {
                 "title": "Allergies",

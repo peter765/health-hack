@@ -626,6 +626,7 @@ function callSendAPI(sender_psid, response) {
 
 function callUserAPI(sender_psid) {
   //message body
+  console.log(sender_psid);
   request({
     "uri": "https://graph.facebook.com/v2.6/" + sender_psid,
     "qs": {

@@ -165,7 +165,6 @@ function handleMessage(sender_psid, received_message) {
       response = {
         "text": `You sent the message: "${received_message.text}". ` + text
       }
-    }
 
     var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
     MongoDB.connect(url, function(err,db) {

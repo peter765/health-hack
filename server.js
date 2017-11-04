@@ -138,9 +138,9 @@ var findProfile = function(db, callback) {
       let response;
       let asdf = "";
       let names = "";
-      asdf = asdf.concat("Date of Birth: ", results[0].DateOfBirth, "\n", "Ethnicity: ", results[0].Ethnicity, "\n", "Address: ", results[0].Address, "\n", "Phone Number: ", results[0].PhoneNumber, "\n", "Height: ", results[0].Height, "\n", "Weight: ", results[0].Weight);
-      //console.log(asdf);
-      names = names.concat(results[0].LastName, ", ", results[0].Name);
+      // asdf = asdf.concat("Date of Birth: ", results[0].DateOfBirth, "\n", "Ethnicity: ", results[0].Ethnicity, "\n", "Address: ", results[0].Address, "\n", "Phone Number: ", results[0].PhoneNumber, "\n", "Height: ", results[0].Height, "\n", "Weight: ", results[0].Weight);
+      // //console.log(asdf);
+      // names = names.concat(results[0].LastName, ", ", results[0].Name);
       console.log(names);
         response = {
         "attachment": {
@@ -150,8 +150,32 @@ var findProfile = function(db, callback) {
             "top_element_style": "large",
             "elements": [
             {
-              "title": names,
-              "subtitle": "test"
+              "title": results[0].LastName,
+              "subtitle": results[0].Name
+            },
+            {
+              "title": "Date of Birth",
+              "subtitle": results[0].DateOfBirth
+            },
+            {
+              "title": "Ethnicity",
+              "subtitle": results[0].Ethnicity
+            },
+            {
+              "title": "Address",
+              "subtitle": results[0].Address
+            },
+            {
+              "title": "Phone Number",
+              "subtitle": results[0].PhoneNumber
+            },
+            {
+              "title": "Height",
+              "subtitle": results[0].Height
+            },
+            {
+              "title": "Weight",
+              "subtitle": results[0].Weight
             },
             {
                 "title": "Allergies",

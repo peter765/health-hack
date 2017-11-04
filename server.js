@@ -113,7 +113,7 @@ function connectionDB(senderID) {
     console.log("Connected Successfully");
 
   //calling different handler functions
-    findPatient(db,function(results){
+    findDOB(db,function(results){
       callSendAPI(senderID,{text: results});
       db.close();
     }
@@ -123,9 +123,9 @@ function connectionDB(senderID) {
 
 }
 
-var findEthnicity = function(db, callback) {
+var findDOB = function(db, callback) {
   db.collection('Patients',function (err,collection) {
-    collection.find({"Name":"Peter", "LastName" : "John"}, {"Ethnicity":1}).toArray(function(err, results) {
+    collection.find({"Name":"Peter", "LastName" : "John"}, {"DateOfBirth":1}).toArray(function(err, results) {
       String ret = results[0].Ethnicity;
       callback(ret);
     });

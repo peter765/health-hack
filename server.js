@@ -182,7 +182,7 @@ function handleMessage(sender_psid, received_message) {
 
       //calling different handler functions
         findPrescriptions(db,function(results){
-          callSendAPI(senderID,{text: results});
+          callSendAPI(sender_psid,{text: results});
          db.close();
         })
 

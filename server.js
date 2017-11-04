@@ -255,7 +255,7 @@ var findWeight = function(db, callback, firstName, lastName) {
 
 var findNotes = function(db, callback, firstName, lastName) {
   db.collection('Notes',function (err,collection) {
-    collection.find({"Name":firstName, "LastName":lastName}, {"Value:" 1}).toArray(function(err, results) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Value": 1}).toArray(function(err, results) {
       assert.equal(err, null);
       let date;
       let pres;

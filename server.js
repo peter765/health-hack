@@ -626,9 +626,9 @@ function callSendAPI(sender_psid, response) {
 
 function callUserAPI(sender_psid) {
   //message body
-  console.log(sender_psid);
+  console.log("https://graph.facebook.com/v2.6/" + sender_psid);
   request({
-    "uri": "https://graph.facebook.com/v2.6/" + sender_psid,
+    "uri": "https://graph.facebook.com/v2.6/" + sender_psid + "?",
     "qs": {
       "fields": "first_name, last_name, profile_pic",
       "access_token": PAGE_ACCESS_TOKEN

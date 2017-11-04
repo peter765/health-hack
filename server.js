@@ -126,16 +126,16 @@ function connectionDB(senderID) {
 //Finds the patient Profile
 var findPrescriptions = function(db, callback) {
   db.collection('Prescriptions',function (err,collection) {
-    collection.find({"Name":"Peter John"}).toArray(function(err, results) {
+    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
       assert.equal(err, null);
       String date;
       String pres;
-      String format;
+      String total;
       String ret;
       for (int i = 0; i < results.length; i++) {
           date = results[i].Date;
           pres = results[i].Prescription;
-          format = date + " - " + pres;
+          total = date + " - " + pres;
           ret += format + "\n";
       }
       callback(ret);

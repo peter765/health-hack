@@ -7,5 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongo": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/peter765/health-hack.git"
+  }
 }

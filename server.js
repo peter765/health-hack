@@ -134,6 +134,42 @@ var findPrescriptions = function (db, callback, firstName, lastName) {
   });
 }
 
+var findTest = function(db, callback) {
+  db.collection('Tests',function (err,collection, firstName, lastName) {
+    collection.find({"Name":firstName, "LastName" : lastName}, {"Date":1,"Type":1, "Value":1}).toArray(function(err, results) {
+      let ret = "";
+      for(var i = 0; i < results.length; i++) {
+        ret += results[i].Date + "\n" + results[i].Type + "\n" + results[i].Value;
+      }
+
+      let response;
+      response = {
+         "message":{
+          "text": "You have taken the following tests. Which results would you like to see?",
+            //provide automatic reply suggestions:
+          "quick_replies":[
+            {
+              "content_type":"text",
+              "title":"MRI Scans",
+              "payload":"MRI", 
+            },
+            {
+              "content_type":"text",
+              "title":"Insulin Levels",
+              "payload":"Insulin"
+            }
+          ]
+        }
+      }
+
+    //let sender_psid = webhook_event.sender_psid;
+    //handlePostback(sender_psid,webhook_event.postback)
+    callback(ret);
+    });
+  });
+
+}
+
 
 var findDOB = function(db, callback, firstName, lastName) {
   db.collection('Patients',function (err,collection) {
@@ -357,11 +393,11 @@ function handleMessage(sender_psid, received_message) {
           } else if (document === "tests") {
 
             //calling different handler functions
-            /*
+           
             findTests(db,function(results){
               callSendAPI(sender_psid,{text:results});
               db.close();
-            })*/
+            })
 
           } else if (document === "prescriptions") {
             findPrescriptions(db, function (results) {

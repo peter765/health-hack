@@ -1,5 +1,5 @@
-/*
- * Messenger Platform Quick Start Tutorial
+
+ /* Messenger Platform Quick Start Tutorial
  *
  * This is the completed code for the Messenger Platform quick start tutorial
  *
@@ -8,7 +8,7 @@
  * To run this code, you must do the following:
  *
  * 1. Deploy this code to a server running Node.js
- * 2. Run `npm install`
+ * 2. Run npm install
  * 3. Update the VERIFY_TOKEN
  * 4. Add your PAGE_ACCESS_TOKEN to your environment vars
  *
@@ -134,69 +134,70 @@ var findProfile = function(db, callback) {
   db.collection('Patients',function (err,collection) {
     collection.find({"Name":"Peter","LastName":"John"},{"Name":1, "LastName":1,"DateOfBirth":1,"Ethnicity":1,"Address":1, "Allergies":1, "FamilyHistory":1, "PhoneNumber":1, "Height":1, "Weight":1}).toArray(function(err, results) {
       assert.equal(err, null);
-      let ret = results[0].Name + " " + results[0].LastName + "\n" + results[0].DateOfBirth + "\n" + results[0].Ethnicity + "\n" + results[0].Address+ "\n" + results[0].Allergies + "\n" + results[0].FamilyHistory + "\n" + results[0].PhoneNumber + "\n" + results[0].Height + "\n" + results[0].Weight;
+      let ret = results[0].Name + " " + results[0].LastName + "\n Date of Birth: " + results[0].DateOfBirth + "\n Ethnicity: " + results[0].Ethnicity + "\n Address: " + results[0].Address+ "\n Phone Number:" + results[0].PhoneNumber + "\n Allergies" + results[0].Allergies + "\n Family History" + results[0].FamilyHistory + "\n Height: " + results[0].Height + "\n Weight: " + results[0].Weight;
+
       let response;
       let asdf = "";
       let names = "";
       // asdf = asdf.concat("Date of Birth: ", results[0].DateOfBirth, "\n", "Ethnicity: ", results[0].Ethnicity, "\n", "Address: ", results[0].Address, "\n", "Phone Number: ", results[0].PhoneNumber, "\n", "Height: ", results[0].Height, "\n", "Weight: ", results[0].Weight);
       // //console.log(asdf);
       // names = names.concat(results[0].LastName, ", ", results[0].Name);
-      console.log(names);
-        response = {
-        "attachment": {
-          "type": "template",
-          "payload": {
-            "template_type": "list",
-            "top_element_style": "compact",
-            "elements": [
-            // {
-            //   "title": results[0].LastName,
-            //   "subtitle": results[0].Name
-            // },
-            {
-              "title": "Date of Birth",
-              "subtitle": results[0].DateOfBirth
-            },
-            {
-              "title": "Ethnicity",
-              "subtitle": results[0].Ethnicity
-            },
-            {
-              "title": "Address",
-              "subtitle": results[0].Address
-            },
-            {
-              "title": "Phone Number",
-              "subtitle": results[0].PhoneNumber
-            },
-            {
-              "title": "Height",
-              "subtitle": results[0].Height
-            },
-            {
-              "title": "Weight",
-              "subtitle": results[0].Weight
-            },
-            {
-                "title": "Allergies",
-                "subtitle": results[0].Allergies
-            },
-            {
-                "title": "Family History",
-                "subtitle": results[0].FamilyHistory
-            },
-            {
-                "title": "Past Medications",
-                "subtitle": results[0].DateOfBirth
-            },
-            {
-                "title": "Past Procedures",
-                "subtitle": results[0].DateOfBirth
-            }]
-          }
-        }
-      }
-
+      // console.log(names);
+      //   response = {
+      //   "attachment": {
+      //     "type": "template",
+      //     "payload": {
+      //       "template_type": "list",
+      //       "top_element_style": "compact",
+      //       "elements": [
+      //           // {
+      //           //   "title": results[0].LastName,
+      //           //   "subtitle": results[0].Name
+      //           // },
+      //           {
+      //             "title": "Date of Birth",
+      //             "subtitle": results[0].DateOfBirth
+      //           },
+      //           {
+      //             "title": "Ethnicity",
+      //             "subtitle": results[0].Ethnicity
+      //           },
+      //           {
+      //             "title": "Address",
+      //             "subtitle": results[0].Address
+      //           },
+      //           {
+      //             "title": "Phone Number",
+      //             "subtitle": results[0].PhoneNumber
+      //           },
+      //           {
+      //             "title": "Height",
+      //             "subtitle": results[0].Height
+      //           },
+      //           {
+      //             "title": "Weight",
+      //             "subtitle": results[0].Weight
+      //           },
+      //           {
+      //               "title": "Allergies",
+      //               "subtitle": results[0].Allergies
+      //           },
+      //           {
+      //               "title": "Family History",
+      //               "subtitle": results[0].FamilyHistory
+      //           },
+      //           {
+      //               "title": "Past Medications",
+      //               "subtitle": results[0].DateOfBirth
+      //           },
+      //           {
+      //               "title": "Past Procedures",
+      //               "subtitle": results[0].DateOfBirth
+      //           }
+      //     ]
+      //     }
+      //   }
+      // }
 
       console.log("Successful Profile");
       console.log(ret);
@@ -216,7 +217,7 @@ function handleMessage(sender_psid, received_message) {
   // Checks if the message contains text
   if (received_message.text) {
 
-    //hello
+
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
       let text = JSON.stringify(received_message.nlp);
@@ -236,10 +237,10 @@ function handleMessage(sender_psid, received_message) {
       })
 
 
-      //findPrescriptions(db,function(results){
-          //callSendAPI(sender_psid,{text: results});
-        // db.close();
-        //})
+      findPrescriptions(db,function(results){
+          callSendAPI(sender_psid,{text: results});
+          db.close();
+       })
 
 
     });

@@ -440,7 +440,7 @@ date = mm + '/' + dd + '/' + yyyy;
       let document;
       let field;
       let intent;
-      let sendUser = callUserAPI(received_message.sender_psid);
+      var sendUser = callUserAPI(received_message.sender_psid);
       if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
         if (nlptxt.given_name) {
           firstName = nlptxt.given_name.value;
@@ -456,7 +456,7 @@ date = mm + '/' + dd + '/' + yyyy;
       }
 
       if (nlptxt.document) {
-        document = nlptxt.documennt.value;
+        document = nlptxt.document.value;
         console.log(document)
       }
       if (nlptxt.field) {

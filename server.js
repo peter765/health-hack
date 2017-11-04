@@ -113,7 +113,7 @@ function connectionDB(senderID) {
     console.log("Connected Successfully");
   
   //calling different handler functions
-    findPatient(db,function(results){
+    findNextSteps(db,function(results){
       callSendAPI(senderID,{text: results});
       db.close();
     }
@@ -123,10 +123,25 @@ function connectionDB(senderID) {
 
 }
 
-//Finds the patient Profile
-var findPatient = function(db, callback) {
-
-} 
+//Finds the Notes
+var findNextSteps = function(db, callback) {
+  db.collection(‘Next_Steps’,function (err,collection) {
+    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
+      assert.equal(err, null);
+      String date;
+      String pres;
+      String total;
+      String ret;
+      for (int i = 0; i < results.length; i++) {
+          date = results[i].Date;
+          pres = results[i].Value;
+          total = date + " - " + pres;
+          ret += total + "\n";
+      }
+      callback(ret);
+    });
+  });
+}
 
 function handleMessage(sender_psid, received_message) {
   let response;

@@ -118,7 +118,7 @@ function connectionDB(senderID) {
       findPrescriptions(db,function(results){
         callSendAPI(senderID,{text: results});
         db.close();
-      }
+      })
 
 
   });

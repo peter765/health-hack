@@ -17,7 +17,7 @@
 'use strict';
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 // Imports dependencies and set up http server
-const 
+const
   request = require('request'),
   express = require('express'),
   MongoDB = require('mongodb').MongoClient,
@@ -29,7 +29,7 @@ const
 app.listen(process.env.PORT || 1337, () => console.log('webhook is READY!!! ' + PAGE_ACCESS_TOKEN));
 
 // Accepts POST requests at /webhook endpoint
-app.post('/webhook', (req, res) => {  
+app.post('/webhook', (req, res) => {
 
   // Parse the request body from the POST
   let body = req.body;
@@ -54,12 +54,12 @@ app.post('/webhook', (req, res) => {
       //TODO: Any messenger actions needed to function, send appropriate content to to the action handler
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event.message);
-        
+
       } else if (webhook_event.postback) {
-        
+
         handlePostback(sender_psid, webhook_event.postback);
       }
-      
+
     });
     // Return a '200 OK' response to all events
     res.status(200).send('EVENT_RECEIVED');
@@ -73,28 +73,28 @@ app.post('/webhook', (req, res) => {
 
 // Accepts GET requests at the /webhook endpoint
 app.get('/webhook', (req, res) => {
-  
+
   /** UPDATE YOUR VERIFY TOKEN **/
   const VERIFY_TOKEN = "Health-Hack";
-  
+
   // Parse params from the webhook verification request
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
   let challenge = req.query['hub.challenge'];
-    
+
   // Check if a token and mode were sent
   if (mode && token) {
-  
+
     // Check the mode and token sent are correct
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      
+
       // Respond with 200 OK and challenge token from the request
       console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
-    
+
     } else {
       // Responds with '403 Forbidden' if verify tokens do not match
-      res.sendStatus(403);      
+      res.sendStatus(403);
     }
   }
 });
@@ -102,8 +102,8 @@ app.get('/webhook', (req, res) => {
 
 /**
  * Action Handler for Messages
- * @param {*} sender_psid 
- * @param {*} received_message 
+ * @param {*} sender_psid
+ * @param {*} received_message
  */
 
 //Setting up the connection to MongoDB
@@ -113,31 +113,42 @@ function connectionDB(senderID) {
   var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
   MongoDB.connect(url, function(err,db) {
     console.log("Connected Successfully");
-  
-  //calling different handler functions
-    findPatient(db,function(results){
-      callSendAPI(senderID,{text: results});
-      db.close();
-    })
+
+    //calling different handler functions
+      findPrescriptions(db,function(results){
+        callSendAPI(senderID,{text: results});
+        db.close();
+      }
 
 
   });
 
 }
 //Finds the patient Profile
-var findPatient = function(db, callback) {
-  db.collection('Patients',function (err,collection) {
-    collection.find({"Name":"Peter John"}).toArray(function(err, results) {
-    assert.equal(err, null);
-    
-    callback(results);
+var findPrescriptions = function(db, callback) {
+  db.collection('Prescriptions',function (err,collection) {
+    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
+      assert.equal(err, null);
+      String date;
+      String pres;
+      String total;
+      String ret;
+      for (int i = 0; i < results.length; i++) {
+          date = results[i].Date;
+          pres = results[i].Prescription;
+          total = date + " - " + pres;
+          ret += format + "\n";
+      }
+      console.log("Successful Prescription");
+      console.log(ret);
+      callback(ret);
     });
   });
-} 
-  
+}
+
 function handleMessage(sender_psid, received_message) {
   let response;
-  
+
   /**
    * Handle All Incoming Message Intents here, using NLP intent('nlp' key in incoming message)
    */
@@ -145,19 +156,27 @@ function handleMessage(sender_psid, received_message) {
 
   // Checks if the message contains text
   if (received_message.text) {
-    
-    
+
+
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
       "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
     }
-    
+
     var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
     MongoDB.connect(url, function(err,db) {
-    console.log("Connected Successfully");
+      console.log("Connected Successfully");
+
+      //calling different handler functions
+        findPrescriptions(db,function(results){
+          callSendAPI(senderID,{text: results});
+          db.close();
+        }
+
+
     });
-    
+
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -186,16 +205,16 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     }
-  } 
-  
+  }
+
   // Send the response message
-  callSendAPI(sender_psid, response);    
+  callSendAPI(sender_psid, response);
 }
 
 /**
  * Action Handler for Postbacks
- * @param {*} sender_psid 
- * @param {*} received_postback 
+ * @param {*} sender_psid
+ * @param {*} received_postback
  */
 function handlePostback(sender_psid, received_postback) {
   console.log('ok')
@@ -241,5 +260,5 @@ function callSendAPI(sender_psid, response) {
     } else {
       console.error("Unable to send message:" + err);
     }
-  }); 
+  });
 }

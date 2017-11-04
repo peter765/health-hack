@@ -200,7 +200,7 @@ var findProfile = function(db, callback) {
 
       console.log("Successful Profile");
       console.log(response);
-      callback(response);
+      callback(ret);
     });
   });
 }

@@ -145,9 +145,16 @@ var findPrescriptions = function(db, callback, firstName, lastName) {
   });
 }
 
-var findProfile = function(db, callback) {
+
+var findDOB = function(db, callback) {
   db.collection('Patients',function (err,collection) {
-    collection.find({"Name":"Peter","LastName":"John"},{"Name":1, "LastName":1,"DateOfBirth":1,"Ethnicity":1,"Address":1, "Allergies":1, "FamilyHistory":1, "PhoneNumber":1, "Height":1, "Weight":1}).toArray(function(err, results) {
+    collection.find({"Name":"Peter", "LastName" : "John"}, {"DateOfBirth":1}).toArray(function(err, results) {
+      String ret = results[0].Ethnicity;
+      callback(ret);
+
+var findProfile = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName,"LastName":lastName},{"Name":1, "LastName":1,"DateOfBirth":1,"Ethnicity":1,"Address":1, "Allergies":1, "FamilyHistory":1, "PhoneNumber":1, "Height":1, "Weight":1}).toArray(function(err, results) {
       assert.equal(err, null);
       let ret = results[0].Name + " " + results[0].LastName + "\n Date of Birth: " + results[0].DateOfBirth + "\n Ethnicity: " + results[0].Ethnicity + "\n Address: " + results[0].Address+ "\n Phone Number: " + results[0].PhoneNumber + "\n Allergies: " + results[0].Allergies + "\n Family History" + results[0].FamilyHistory + "\n Height: " + results[0].Height + "\n Weight: " + results[0].Weight;
 
@@ -232,18 +239,64 @@ function handleMessage(sender_psid, received_message) {
   // Checks if the message contains text
   if (received_message.text) {
 
-
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-      let text = JSON.stringify(received_message.nlp);
-      console.log(text);
-      response = {
-        "text": `You sent the message: "${received_message.text}". ` + text
-      }
+
+
+  // Create the payload for a basic text message, which
+  // will be added to the body of our request to the Send API
+    let nlptxt = JSON.stringify(received_message.nlp.entities);
+    console.log(text);
+
+    response = {
+      "text": `You sent the message: "${received_message.text}". ` + nlptxt
+    }
     //Setting up the connection to MongoDB
     var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
-    MongoDB.connect(url, function(err,db) {
-      console.log("Connected Successfully");
+
+    if(nlptxt) {
+      let firstName;
+      let lastName;
+      let document;
+      let field;
+      let intent;
+      if(nlptxt.given_name) {
+        firstName = nlptxt.given_name.value;
+        console.log(firstName)
+      }
+      if(nlptxt.family_name) {
+        lastName = nlptxt.family_name.value;
+        console.log(lastName)
+      }
+      if(nlptxt.document) {
+        document = nlptxt.documennt.value;
+        console.log(document)
+      }
+      if(nlptxt.field) {
+        field = nlptxt.field.value;
+        console.log(field)
+      }
+    }
+    if(nlptxt.intent) {
+      intent = nlptxt.intent.value;
+      console.log(intent)
+      MongoDB.connect(url, function(err,db) {
+        console.log("Connected Successfully");
+
+        if(intent == "profile") { //shows patient information
+          //calling different handler functions
+          if (!document) { //default case for profile
+            if(firstName && lastName) {
+              findProfile(db,function(results){
+                findPrescriptions(db,function(results){
+                callSendAPI(sender_psid,{text: results});
+
+                }, firstName, lastName)
+                callSendAPI(sender_psid,results);
+                db.close();
+              }, firstName, lastName)
+            }
+          } else if(document == "tests") {
 
       //calling different handler functions
       findProfile(db,function(results){
@@ -251,10 +304,53 @@ function handleMessage(sender_psid, received_message) {
         db.close();
       })
 
+          } else if (document == "prescriptions") {
+
+          } else if (document == "symptoms") {
+
+          } else if (document == "next steps") {
 
 
+          } else if (document == "notes") {
 
-    });
+          }
+
+
+        } else if(intent == "update") { //updates patient information
+            if (firstName && lastName) {
+              if(!field) {
+                //invalid field or default case
+              } else if (field == "height") {
+
+              } else if (field == "weight") {
+
+              } else if (field == "history") {
+
+              } else if (field == "number") {
+
+              } else if (field == "address") {
+
+              } else if (field == "dob") {
+
+              } else if (field == "meds") {
+
+              }
+               //call update functions to database
+
+            }
+        } else if(intent == "add") {
+              //call add functions to database
+            if (firstName && lastName) {
+              //call addPatient() with default parameters
+            } else {
+              //call addPatient()
+            }
+        }
+
+
+      });
+    }
+
 
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
@@ -338,6 +434,26 @@ function callSendAPI(sender_psid, response) {
       console.log('message sent!')
     } else {
       console.error("Unable to send message:" + err);
+    }
+  });
+}
+
+function callUserAPI(sender_psid) {
+  //message body
+  request({
+    "uri" : "https://graph.facebook.com/v2.6/" + string(sender_psid),
+    "qs" : {
+      "fields" : "first_name, last_name, profile_pic",
+      "access_token" : PAGE_ACCESS_TOKEN
+    },
+    "method" : "GET"
+  }, (err, res, body) => {
+    if (!err) {
+      let profileObject = JSON.parse(body);
+      console.log('user retrieved!' + profileObject.first_name);
+      return profileObject;
+    } else {
+      console.error("unable to retrieve user for id: " + string(sender_psid));
     }
   });
 }

@@ -552,7 +552,6 @@ date = mm + '/' + dd + '/' + yyyy;
 =======
       addMRIImage(db, callback, firstName, lastName)
     });
->>>>>>> 2a547896180c1ae35b1cd75973451d651f24b42b
   }
 }
 }

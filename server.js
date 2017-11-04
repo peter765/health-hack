@@ -134,6 +134,42 @@ var findPrescriptions = function (db, callback, firstName, lastName) {
   });
 }
 
+var findTest = function(db, callback, firstName, lastName) {
+  db.collection('Tests',function (err,collection, firstName, lastName) {
+    collection.find({"Name":firstName, "LastName" : lastName}, {"Date":1,"Type":1, "Value":1}).toArray(function(err, results) {
+      let ret = "";
+      for(var i = 0; i < results.length; i++) {
+        ret += results[i].Date + "\n" + results[i].Type + "\n" + results[i].Value;
+      }
+
+      let response;
+      response = {
+         "message":{
+          "text": "You have taken the following tests. Which results would you like to see?",
+            //provide automatic reply suggestions:
+          "quick_replies":[
+            {
+              "content_type":"text",
+              "title":"MRI Scans",
+              "payload":"MRI", 
+            },
+            {
+              "content_type":"text",
+              "title":"Insulin Levels",
+              "payload":"Insulin"
+            }
+          ]
+        }
+      }
+
+    //let sender_psid = webhook_event.sender_psid;
+    //handlePostback(sender_psid,webhook_event.postback)
+    callback(ret);
+    });
+  });
+
+}
+
 
 var findDOB = function(db, callback, firstName, lastName) {
   db.collection('Patients',function (err,collection) {
@@ -219,13 +255,13 @@ var findWeight = function(db, callback, firstName, lastName) {
 
 var findNotes = function(db, callback, firstName, lastName) {
   db.collection('Notes',function (err,collection) {
-    collection.find({"Name":firstName, "LastName":lastName}, {"Value:" 1}).toArray(function(err, results) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Value": 1}).toArray(function(err, results) {
       assert.equal(err, null);
       let date;
       let pres;
       let total;
       let ret;
-      for (int i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
           date = results[i].Date;
           pres = results[i].Value;
           total = date + " - " + pres;
@@ -254,7 +290,7 @@ var findProcedures = function(db, callback, firstName, lastName) {
       let pres;
       let total;
       let ret;
-      for (int i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
           date = results[i].Date;
           pres = results[i].Value;
           total = date + " - " + pres;
@@ -266,14 +302,14 @@ var findProcedures = function(db, callback, firstName, lastName) {
 }
 
 var findSymptoms = function(db, callback, firstName, lastName) {
-  db.collection('Symptoms', function (err,collection)) {
+  db.collection('Symptoms', function (err,collection){
     collection.find({"Name":firstName, "LastName":lastName}, {"Type":1}).toArray(function(err,result) {
       assert.equal(ee,null);
       let date;
       let symp;
       let bleh;
       let ret;
-      for (int i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
         date = results[i].Date;
         symp = results[i].Type;
         bleh= date + " - " + symp;
@@ -446,11 +482,11 @@ date = mm + '/' + dd + '/' + yyyy;
           } else if (document === "tests") {
 
             //calling different handler functions
-            /*
+           
             findTests(db,function(results){
               callSendAPI(sender_psid,{text:results});
               db.close();
-            })*/
+            })
 
           } else if (document === "prescriptions") {
             findPrescriptions(db, function (results) {
@@ -475,10 +511,7 @@ date = mm + '/' + dd + '/' + yyyy;
             callSendAPI(sender_psid, { text: results });
           }, firstName, lastName);
           db.close();
-        }
-
-
-      } else if(intent === "update") { //updates patient information
+        } else if(intent === "update") { //updates patient information
         if (isDoctor(sendUser.first_name, sendUser.last_name)) {
           if (!field) {
             //invalid field or default case
@@ -513,9 +546,12 @@ date = mm + '/' + dd + '/' + yyyy;
   let attachment_url = received_message.attachments[0].payload.url;
   if(isDoctor(sendUser.first_name, sendUser.last_name)) {
     MongoDB.connect(url, function (err, db) {
+<<<<<<< HEAD
       addMRIImage(db, callback, firstName, lastName, "MRI", date, attachment_url);
     }
+=======
       addMRIImage(db, callback, firstName, lastName)
+    });
 >>>>>>> 2a547896180c1ae35b1cd75973451d651f24b42b
   }
 }

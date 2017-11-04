@@ -232,7 +232,7 @@ function handleMessage(sender_psid, received_message) {
 
       //calling different handler functions
       findProfile(db,function(results){
-        callSendAPI(sender_psid,json.dumps(results));
+        callSendAPI(sender_psid,results);
         db.close();
       })   
       

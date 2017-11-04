@@ -106,24 +106,8 @@ app.get('/webhook', (req, res) => {
  * @param {*} received_message
  */
 
-//Setting up the connection to MongoDB
-function connectionDB(senderID) {
-
-  //Setting Up the connection
-  var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
-  MongoDB.connect(url, function(err,db) {
-    console.log("Connected Successfully");
-
-    //calling different handler functions
-      findPrescriptions(db,function(results){
-        callSendAPI(senderID,{text: results});
-        db.close();
-      })
 
 
-  });
-
-}
 //Finds the patient Profile
 var findPrescriptions = function(db, callback) {
   db.collection('Prescriptions',function (err,collection) {
@@ -177,7 +161,7 @@ var findProfile = function(db, callback) {
       
       
       console.log("Successful Profile");
-      console.log(ret);
+      console.log(response);
       callback(response);
     });
   });
@@ -202,14 +186,14 @@ function handleMessage(sender_psid, received_message) {
       response = {
         "text": `You sent the message: "${received_message.text}". ` + text
       }
-
+    //Setting up the connection to MongoDB
     var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
     MongoDB.connect(url, function(err,db) {
       console.log("Connected Successfully");
 
       //calling different handler functions
       findProfile(db,function(results){
-        callSendAPI(sender_psid,{text: results});
+        callSendAPI(sender_psid,results);
         db.close();
       })   
       

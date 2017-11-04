@@ -441,6 +441,9 @@ date = mm + '/' + dd + '/' + yyyy;
       let field;
       let intent;
       var sendUser = callUserAPI(sender_psid);
+      while (sendUser === NULL){
+        callUserAPI(sender_psid);
+      }
       console.log(sendUser);
       if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
         if (nlptxt.given_name) {
@@ -636,11 +639,12 @@ function callUserAPI(sender_psid) {
     if (!err) {
       nameObj = JSON.parse(body);
       console.log('user retrieved!' + nameObj.first_name);
+      return nameObj;
     } else {
-      console.error("unable to retrieve user for id: " + string(sender_psid));
+      console.error("unable to retrieve user for id: " + sender_psid);
     }
-    return nameObj;
   });
+  
 
 }
 

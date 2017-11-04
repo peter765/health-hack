@@ -515,6 +515,8 @@ date = mm + '/' + dd + '/' + yyyy;
     MongoDB.connect(url, function (err, db) {
       addMRIImage(db, callback, firstName, lastName, "MRI", date, attachment_url);
     }
+      addMRIImage(db, callback, firstName, lastName)
+>>>>>>> 2a547896180c1ae35b1cd75973451d651f24b42b
   }
 }
 

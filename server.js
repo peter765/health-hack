@@ -161,7 +161,7 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     if(received_message.nlp.entities) {
-        text = "";
+        let text = "";
         for (var key in received_message.nlp.entities) {
           if (received_message.nlp.entities.hasOwnProperty(key)) {
               text += key +" -> " + p[key] + "\n";

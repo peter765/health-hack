@@ -137,7 +137,7 @@ var findPrescriptions = function(db, callback) {
           date = results[i].Date;
           pres = results[i].Prescription;
           total = date + " - " + pres;
-          ret += format + "\n";
+          ret += total + "\n";
       }
       console.log("Successful Prescription");
       console.log(ret);
@@ -172,10 +172,10 @@ function handleMessage(sender_psid, received_message) {
       console.log("Connected Successfully");
 
       //calling different handler functions
-        //findPrescriptions(db,function(results){
-          //callSendAPI(senderID,{text: results});
-         // db.close();
-        //}
+        findPrescriptions(db,function(results){
+          callSendAPI(sender_psid,{text: results});
+         db.close();
+        })
 
 
     });

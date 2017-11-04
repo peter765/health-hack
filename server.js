@@ -126,7 +126,7 @@ function connectionDB(senderID) {
 //Finds the patient Profile
 var findWeight = function(db, callback) {
   db.collection('Patients',function (err,collection) {
-    collection.find({"Name":"Peter John"}).toArray(function(err, results) {
+    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
       String ret = results[0].Weight;
       callback(ret);
     });

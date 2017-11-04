@@ -638,8 +638,9 @@ function callUserAPI(sender_psid) {
     } else {
       console.error("unable to retrieve user for id: " + string(sender_psid));
     }
+    return nameObj;
   });
-  return nameObj;
+
 }
 
 function isDoctor(firstName, lastName) {

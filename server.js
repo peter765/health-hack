@@ -146,6 +146,19 @@ var findPrescriptions = function(db, callback) {
   });
 }
 
+var findProfile = function(db, callback) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":"Peter","LastName":"John"},{"Name":1, "LastName":1,"DateOfBirth":1,"Ethnicity":1,"Address":1, "Allergies":1, "FamilyHistory":1, "PhoneNumber":1, "Height":1, "Weight":1}).toArray(function(err, results) {
+      assert.equal(err, null);
+      ret = results[0].Name + " " + results[0].LastName + "\n" + results[0].DateOfBirth + "\n" + results[0].Ethnicity + "\n" + results[0].Address+ "\n" + results[0].Allergies + "\n" + results[0].FamilyHistory + "\n" + results[0].PhoneNumber + "\n" + results[0].Height + "\n" + results[0].Weight;  
+
+      console.log("Successful Profile");
+      console.log(ret);
+      callback(ret);
+    });
+  });
+}
+
 function handleMessage(sender_psid, received_message) {
   let response;
 
@@ -171,7 +184,13 @@ function handleMessage(sender_psid, received_message) {
       console.log("Connected Successfully");
 
       //calling different handler functions
-        findPrescriptions(db,function(results){
+      findProfile(db,function(results){
+        callSendAPI(sender_psid,{text: results});
+        db.close();
+      })   
+      
+      
+      findPrescriptions(db,function(results){
           callSendAPI(sender_psid,{text: results});
          db.close();
         })

@@ -143,14 +143,14 @@ var findProfile = function(db, callback) {
             "template_type": "list",
             "top_element_style": "compact",
             "elements": [{
-              "title": results[0].LastName + ", " + results[0].Name
-              "subtitle": "Date Of Birth: " + results[0].DateOfBirth + "\n" +
-                          "Ethnicity: " + results[0].Ethnicity + "\n" +
-                          "Address: " + results[0].Address + "\n" +
-                          "Phone Number: " + results[0].PhoneNumber + "\n" +
-                          "Height: " + results[0].Height + "\n" +
-                          "Weight:" + results[0].Weight
-            },
+            //   "title": results[0].LastName + ", " + results[0].Name
+            //   "subtitle": "Date Of Birth: " + results[0].DateOfBirth + "\n" +
+            //               "Ethnicity: " + results[0].Ethnicity + "\n" +
+            //               "Address: " + results[0].Address + "\n" +
+            //               "Phone Number: " + results[0].PhoneNumber + "\n" +
+            //               "Height: " + results[0].Height + "\n" +
+            //               "Weight:" + results[0].Weight
+            // },
             {
                 "title": "Allergies",
                 "subtitle": results[0].Allergies

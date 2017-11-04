@@ -422,10 +422,7 @@ function handleMessage(sender_psid, received_message) {
             callSendAPI(sender_psid, { text: results });
           }, firstName, lastName);
           db.close();
-        }
-
-
-      } else if(intent === "update") { //updates patient information
+        } else if(intent === "update") { //updates patient information
         if (isDoctor(sendUser.first_name, sendUser.last_name)) {
           if (!field) {
             //invalid field or default case

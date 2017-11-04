@@ -147,7 +147,7 @@ var findProfile = function(db, callback) {
           "type": "template",
           "payload": {
             "template_type": "list",
-            "top_element_style": "large",
+            "top_element_style": "compact",
             "elements": [
             // {
             //   "title": results[0].LastName,

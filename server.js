@@ -146,7 +146,7 @@ var findProfile = function(db, callback) {
             "top_element_style": "compact",
             "elements": [
               {
-              "title": results[0].LastName + ", " + results[0].Name,
+              "title": names,
               "subtitle": asdf
             },
             {

@@ -136,7 +136,7 @@ var findNotes = function(db, callback) {
           date = results[i].Date;
           pres = results[i].Value;
           total = date + " - " + pres;
-          ret += format + "\n";
+          ret += total + "\n";
       }
       callback(ret);
     });

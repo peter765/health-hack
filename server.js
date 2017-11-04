@@ -137,59 +137,69 @@ var findProfile = function(db, callback) {
       let ret = results[0].Name + " " + results[0].LastName + "\n" + results[0].DateOfBirth + "\n" + results[0].Ethnicity + "\n" + results[0].Address+ "\n" + results[0].Allergies + "\n" + results[0].FamilyHistory + "\n" + results[0].PhoneNumber + "\n" + results[0].Height + "\n" + results[0].Weight;  
       let response;
      response = {
-        "message":{
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"receipt",
-        "recipient_name":"Stephane Crozatier",
-        "order_number":"12345678902",
-        "currency":"USD",
-        "payment_method":"Visa 2345",        
-        "order_url":"http://petersapparel.parseapp.com/order?order_id=123456",
-        "timestamp":"1428444852",         
-        "address":{
-          "street_1":"1 Hacker Way",
-          "street_2":"",
-          "city":"Menlo Park",
-          "postal_code":"94025",
-          "state":"CA",
-          "country":"US"
-        },
-        "summary":{
-          "subtotal":75.00,
-          "shipping_cost":4.95,
-          "total_tax":6.19,
-          "total_cost":56.14
-        },
-        "adjustments":[
+        "message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "list",
+        "top_element_style": "compact",
+        "elements": [
           {
-            "name":"New Customer Discount",
-            "amount":20
+            "title": "Classic T-Shirt Collection",
+            "subtitle": "See all our colors",
+            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
+            "buttons": [
+              {
+                "title": "View",
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/collection",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
+              }
+            ]
           },
           {
-            "name":"$10 Off Coupon",
-            "amount":10
+            "title": "Classic White T-Shirt",
+            "subtitle": "See all our colors",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+              "messenger_extensions": true,
+              "webview_height_ratio": "tall",
+              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+            }
+          },
+          {
+            "title": "Classic Blue T-Shirt",
+            "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
+            "subtitle": "100% Cotton, 200% Comfortable",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
+              "messenger_extensions": true,
+              "webview_height_ratio": "tall",
+              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+            },
+            "buttons": [
+              {
+                "title": "Shop Now",
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
+              }
+            ]        
           }
         ],
-        "elements":[
+         "buttons": [
           {
-            "title":"Classic White T-Shirt",
-            "subtitle":"100% Soft and Luxurious Cotton",
-            "quantity":2,
-            "price":50,
-            "currency":"USD",
-            "image_url":"http://petersapparel.parseapp.com/img/whiteshirt.png"
-          },
-          {
-            "title":"Classic Gray T-Shirt",
-            "subtitle":"100% Soft and Luxurious Cotton",
-            "quantity":1,
-            "price":25,
-            "currency":"USD",
-            "image_url":"http://petersapparel.parseapp.com/img/grayshirt.png"
+            "title": "View More",
+            "type": "postback",
+            "payload": "payload"            
           }
-        ]
+        ]  
       }
     }
   }

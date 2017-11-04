@@ -244,10 +244,10 @@ function handleMessage(sender_psid, received_message) {
       })   
       
       
-      findPrescriptions(db,function(results){
-          callSendAPI(sender_psid,{text: results});
-         db.close();
-        })
+      //findPrescriptions(db,function(results){
+          //callSendAPI(sender_psid,{text: results});
+        // db.close();
+        //})
 
 
     });

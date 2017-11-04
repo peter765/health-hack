@@ -184,7 +184,7 @@ function handleMessage(sender_psid, received_message) {
         findPrescriptions(db,function(results){
           callSendAPI(senderID,{text: results});
          db.close();
-        }
+        })
 
 
     });

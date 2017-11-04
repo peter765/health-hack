@@ -261,7 +261,7 @@ var findNotes = function(db, callback, firstName, lastName) {
       let pres;
       let total;
       let ret;
-      for (int i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
           date = results[i].Date;
           pres = results[i].Value;
           total = date + " - " + pres;
@@ -290,7 +290,7 @@ var findProcedures = function(db, callback, firstName, lastName) {
       let pres;
       let total;
       let ret;
-      for (int i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
           date = results[i].Date;
           pres = results[i].Value;
           total = date + " - " + pres;
@@ -309,7 +309,7 @@ var findSymptoms = function(db, callback, firstName, lastName) {
       let symp;
       let bleh;
       let ret;
-      for (int i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
         date = results[i].Date;
         symp = results[i].Type;
         bleh= date + " - " + symp;

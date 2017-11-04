@@ -626,13 +626,9 @@ function callSendAPI(sender_psid, response) {
 
 function callUserAPI(sender_psid) {
   //message body
-  console.log("https://graph.facebook.com/v2.6/" + sender_psid);
+  var params = "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
   request({
-    "uri": "https://graph.facebook.com/v2.6/" + sender_psid + "?",
-    "qs": {
-      "fields": "first_name, last_name, profile_pic",
-      "access_token": PAGE_ACCESS_TOKEN
-    },
+    "uri": "https://graph.facebook.com/v2.6/" + sender_psid + params,
     "method": "GET"
   }, (err, res, body) => {
     if (!err) {

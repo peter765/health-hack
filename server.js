@@ -107,19 +107,6 @@ app.get('/webhook', (req, res) => {
  */
 
 
-//Setting up the connection to MongoDB
-function connectionDB(senderID) {
-
-  //Setting Up the connection
-  var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
-  MongoDB.connect(url, function(err,db) {
-    console.log("Connected Successfully");
-
-  //calling different handler functions
-    findDOB(db,function(results){
-      callSendAPI(senderID,{text: results});
-      db.close();
-    }
 
 
 
@@ -149,8 +136,12 @@ var findPrescriptions = function(db, callback, firstName, lastName) {
 var findDOB = function(db, callback) {
   db.collection('Patients',function (err,collection) {
     collection.find({"Name":"Peter", "LastName" : "John"}, {"DateOfBirth":1}).toArray(function(err, results) {
-      String ret = results[0].Ethnicity;
+      let ret = results[0].DateOfBirth;
       callback(ret);
+    });
+  });
+
+}
 
 var findProfile = function(db, callback, firstName, lastName) {
   db.collection('Patients',function (err,collection) {
@@ -161,72 +152,15 @@ var findProfile = function(db, callback, firstName, lastName) {
       let response;
       let asdf = "";
       let names = "";
-      // asdf = asdf.concat("Date of Birth: ", results[0].DateOfBirth, "\n", "Ethnicity: ", results[0].Ethnicity, "\n", "Address: ", results[0].Address, "\n", "Phone Number: ", results[0].PhoneNumber, "\n", "Height: ", results[0].Height, "\n", "Weight: ", results[0].Weight);
-      // //console.log(asdf);
-      // names = names.concat(results[0].LastName, ", ", results[0].Name);
-      // console.log(names);
-      //   response = {
-      //   "attachment": {
-      //     "type": "template",
-      //     "payload": {
-      //       "template_type": "list",
-      //       "top_element_style": "compact",
-      //       "elements": [
-      //           // {
-      //           //   "title": results[0].LastName,
-      //           //   "subtitle": results[0].Name
-      //           // },
-      //           {
-      //             "title": "Date of Birth",
-      //             "subtitle": results[0].DateOfBirth
-      //           },
-      //           {
-      //             "title": "Ethnicity",
-      //             "subtitle": results[0].Ethnicity
-      //           },
-      //           {
-      //             "title": "Address",
-      //             "subtitle": results[0].Address
-      //           },
-      //           {
-      //             "title": "Phone Number",
-      //             "subtitle": results[0].PhoneNumber
-      //           },
-      //           {
-      //             "title": "Height",
-      //             "subtitle": results[0].Height
-      //           },
-      //           {
-      //             "title": "Weight",
-      //             "subtitle": results[0].Weight
-      //           },
-      //           {
-      //               "title": "Allergies",
-      //               "subtitle": results[0].Allergies
-      //           },
-      //           {
-      //               "title": "Family History",
-      //               "subtitle": results[0].FamilyHistory
-      //           },
-      //           {
-      //               "title": "Past Medications",
-      //               "subtitle": results[0].DateOfBirth
-      //           },
-      //           {
-      //               "title": "Past Procedures",
-      //               "subtitle": results[0].DateOfBirth
-      //           }
-      //     ]
-      //     }
-      //   }
-      // }
-
+      
       console.log("Successful Profile");
       console.log(ret);
       callback(ret);
     });
   });
 }
+
+
 
 function handleMessage(sender_psid, received_message) {
   let response;
@@ -283,7 +217,7 @@ function handleMessage(sender_psid, received_message) {
       MongoDB.connect(url, function(err,db) {
         console.log("Connected Successfully");
 
-        if(intent == "profile") { //shows patient information
+        if(intent === "profile") { //shows patient information
           //calling different handler functions
           if (!document) { //default case for profile
             if(firstName && lastName) {
@@ -296,7 +230,7 @@ function handleMessage(sender_psid, received_message) {
                 db.close();
               }, firstName, lastName)
             }
-          } else if(document == "tests") {
+          } else if(document === "tests") {
 
       //calling different handler functions
       findProfile(db,function(results){
@@ -304,41 +238,41 @@ function handleMessage(sender_psid, received_message) {
         db.close();
       })
 
-          } else if (document == "prescriptions") {
+          } else if (document === "prescriptions") {
 
-          } else if (document == "symptoms") {
+          } else if (document === "symptoms") {
 
-          } else if (document == "next steps") {
+          } else if (document === "next steps") {
 
 
-          } else if (document == "notes") {
+          } else if (document === "notes") {
 
           }
 
 
-        } else if(intent == "update") { //updates patient information
+        } else if(intent === "update") { //updates patient information
             if (firstName && lastName) {
               if(!field) {
                 //invalid field or default case
-              } else if (field == "height") {
+              } else if (field === "height") {
 
-              } else if (field == "weight") {
+              } else if (field === "weight") {
 
-              } else if (field == "history") {
+              } else if (field === "history") {
 
-              } else if (field == "number") {
+              } else if (field === "number") {
 
-              } else if (field == "address") {
+              } else if (field === "address") {
 
-              } else if (field == "dob") {
+              } else if (field === "dob") {
 
-              } else if (field == "meds") {
+              } else if (field === "meds") {
 
               }
                //call update functions to database
 
             }
-        } else if(intent == "add") {
+        } else if(intent === "add") {
               //call add functions to database
             if (firstName && lastName) {
               //call addPatient() with default parameters

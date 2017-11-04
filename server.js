@@ -117,13 +117,12 @@ function connectionDB(senderID) {
     findPatient(db,function(results){
       callSendAPI(senderID,{text: results});
       db.close();
-    }
+    })
 
 
   });
 
 }
-
 //Finds the patient Profile
 var findPatient = function(db, callback) {
   db.collection('Patients',function (err,collection) {
@@ -133,7 +132,7 @@ var findPatient = function(db, callback) {
     callback(results);
     });
   });
-}
+} 
   
 function handleMessage(sender_psid, received_message) {
   let response;

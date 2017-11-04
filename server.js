@@ -321,7 +321,7 @@ var findSymptoms = function(db, callback, firstName, lastName) {
 }
 
 var addMRI = function(db, callback, firstName, lastName, type, date, value) {
-   db.collection('Tests').insertOne( {
+   db.collection('Tests').insertOne(
       {
          "Name" : firstName,
          "LastName" : lastName,

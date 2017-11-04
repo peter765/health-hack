@@ -135,9 +135,9 @@ var findPrescriptions = function (db, callback, firstName, lastName) {
 }
 
 
-var findDOB = function (db, callback) {
-  db.collection('Patients', function (err, collection) {
-    collection.find({ "Name": "Peter", "LastName": "John" }, { "DateOfBirth": 1 }).toArray(function (err, results) {
+var findDOB = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName" : lastName}, {"DateOfBirth":1}).toArray(function(err, results) {
       let ret = results[0].DateOfBirth;
       callback(ret);
     });
@@ -162,7 +162,127 @@ var findProfile = function (db, callback, firstName, lastName) {
   });
 }
 
+var findAllergies = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Allergies":1}).toArray(function(err, results) {
+      let ret = results[0].Allergies;
+      callback(ret);
+    });
+  });
+}
 
+var findEthnicity = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Ethnicity":1}).toArray(function(err, results) {
+      let ret = results[0].Ethnicity;
+      callback(ret);
+    });
+  });
+}
+
+var findHeight = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Height":1}).toArray(function(err, results) {
+      let ret = results[0].Height;
+      callback(ret);
+    });
+  });
+}
+
+var findPhone = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"PhoneNumber":1}).toArray(function(err, results) {
+      let ret = results[0].PhoneNumber;
+      callback(ret);
+    });
+  });
+}
+
+var findAddress = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Address":1}).toArray(function(err, results) {
+      assert.equal(err, null);
+      let ret = results[0].Address;
+      callback(ret);
+    });
+  });
+}
+
+var findWeight = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Weight":1}).toArray(function(err, results) {
+      let ret = results[0].Weight;
+      callback(ret);
+    });
+  });
+}
+
+var findNotes = function(db, callback, firstName, lastName) {
+  db.collection('Notes',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Value:" 1}).toArray(function(err, results) {
+      assert.equal(err, null);
+      let date;
+      let pres;
+      let total;
+      let ret;
+      for (int i = 0; i < results.length; i++) {
+          date = results[i].Date;
+          pres = results[i].Value;
+          total = date + " - " + pres;
+          ret += total + "\n";
+      }
+      callback(ret);
+    });
+  });
+}
+
+var findFam = function(db, callback, firstName, lastName) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"FamilyHistory":1}).toArray(function(err, results) {
+      assert.equal(err, null);
+      let ret = results[0].FamilyHistory;
+      callback(ret);
+    });
+  });
+}
+
+var findProcedures = function(db, callback, firstName, lastName) {
+  db.collection('Procedures',function (err,collection) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Value":1}).toArray(function(err, results) {
+      assert.equal(err, null);
+      let date;
+      let pres;
+      let total;
+      let ret;
+      for (int i = 0; i < results.length; i++) {
+          date = results[i].Date;
+          pres = results[i].Value;
+          total = date + " - " + pres;
+          ret += total + "\n";
+      }
+      callback(ret);
+    });
+  });
+}
+
+var findSymptoms = function(db, callback, firstName, lastName) {
+  db.collection('Symptoms', function (err,collection)) {
+    collection.find({"Name":firstName, "LastName":lastName}, {"Type":1}).toArray(function(err,result) {
+      assert.equal(ee,null);
+      let date;
+      let symp;
+      let bleh;
+      let ret;
+      for (int i = 0; i < results.length; i++) {
+        date = results[i].Date;
+        symp = results[i].Type;
+        bleh= date + " - " + symp;
+        ret += bleh + "\n";
+      }
+    callback(ret);
+    });
+  });
+}
 
 function handleMessage(sender_psid, received_message) {
   let response;

@@ -127,7 +127,7 @@ function connectionDB(senderID) {
 //Finds the patient Profile
 var findPrescriptions = function(db, callback) {
   db.collection('Prescriptions',function (err,collection) {
-    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
+    collection.find({"Name":"Peter John"}).toArray(function(err, results) {
       assert.equal(err, null);
       let date;
       let pres;
@@ -181,10 +181,10 @@ function handleMessage(sender_psid, received_message) {
       console.log("Connected Successfully");
 
       //calling different handler functions
-        //findPrescriptions(db,function(results){
-          //callSendAPI(senderID,{text: results});
-         // db.close();
-        //}
+        findPrescriptions(db,function(results){
+          callSendAPI(senderID,{text: results});
+         db.close();
+        }
 
 
     });

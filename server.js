@@ -24,7 +24,7 @@ const
   app = express().use(body_parser.json()); // creates express http server
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening at ' + PAGE_ACCESS_TOKEN));
+app.listen(process.env.PORT || 1337, () => console.log('webhook is READY!!! ' + PAGE_ACCESS_TOKEN));
 
 // Accepts POST requests at /webhook endpoint
 app.post('/webhook', (req, res) => {  
@@ -48,6 +48,8 @@ app.post('/webhook', (req, res) => {
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
+
+      //TODO: Any messenger actions needed to function, send appropriate content to to the action handler
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event.message);        
       } else if (webhook_event.postback) {
@@ -94,9 +96,20 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+
+/**
+ * Action Handler for Messages
+ * @param {*} sender_psid 
+ * @param {*} received_message 
+ */
 function handleMessage(sender_psid, received_message) {
   let response;
   
+  /**
+   * Handle All Incoming Message Intents here, using NLP intent('nlp' key in incoming message)
+   */
+
+
   // Checks if the message contains text
   if (received_message.text) {    
     // Create the payload for a basic text message, which
@@ -138,6 +151,11 @@ function handleMessage(sender_psid, received_message) {
   callSendAPI(sender_psid, response);    
 }
 
+/**
+ * Action Handler for Postbacks
+ * @param {*} sender_psid 
+ * @param {*} received_postback 
+ */
 function handlePostback(sender_psid, received_postback) {
   console.log('ok')
    let response;
@@ -154,6 +172,13 @@ function handlePostback(sender_psid, received_postback) {
   callSendAPI(sender_psid, response);
 }
 
+
+
+
+
+
+///DO NOT TOUCH THIS FUNCTION
+///RESPONSIBLE FOR SENDING MESSAGES
 function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {

@@ -113,7 +113,7 @@ function connectionDB(senderID) {
     console.log("Connected Successfully");
   
   //calling different handler functions
-    findNotes(db,function(results){
+    findNextSteps(db,function(results){
       callSendAPI(senderID,{text: results});
       db.close();
     }
@@ -124,8 +124,8 @@ function connectionDB(senderID) {
 }
 
 //Finds the Notes
-var findNotes = function(db, callback) {
-  db.collection(‘Notes’,function (err,collection) {
+var findNextSteps = function(db, callback) {
+  db.collection('Next_Steps',function (err,collection) {
     collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
       assert.equal(err, null);
       String date;

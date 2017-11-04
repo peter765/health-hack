@@ -193,7 +193,7 @@ function openConnection(param,senderID){        //OPENING CONNECTION TO MONGODB
     for(i = 0; i < queries.length;i++){
         queries[i] = queries[i].trim();
     } 
-    var urlDB = 'mongodb://admin:admin@ds149049.mlab.com:49049/heroku_qgnhcdwc';
+    var urlDB = 'mongodb://heroku_sn3clbg8:l10b5u38ob63d2grp8vi0dllph@ds061355.mlab.com:61355/heroku_sn3clbg8';
     MongoClient.connect(urlDB, function(err, db) {
     assert.equal(null, err);
     console.log("Connected successfully to server");

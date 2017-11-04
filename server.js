@@ -113,7 +113,7 @@ function connectionDB(senderID) {
     console.log("Connected Successfully");
   
   //calling different handler functions
-    findPatient(db,function(results){
+    findEthnicity(db,function(results){
       callSendAPI(senderID,{text: results});
       db.close();
     }
@@ -123,10 +123,19 @@ function connectionDB(senderID) {
 
 }
 
-//Finds the patient Profile
-var findPatient = function(db, callback) {
+//Finds the Ethnicity Profile
+var findEthnicity = function(db, callback) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
+      String ret = results[0].Ethnicity;
+      callback(ret);
+    });
+  });
+}
 
-} 
+
+
+
 
 function handleMessage(sender_psid, received_message) {
   let response;

@@ -142,9 +142,8 @@ var findProfile = function(db, callback) {
           "payload": {
             "template_type": "generic",
             "elements": [{
-              "title": "Is this the right picture?",
-              "subtitle": "Tap a button to answer.",
-              "image_url": "www.google.com",
+              "subtitle": "Name.",
+              "title": "Peter John?",
               "buttons": [
                 {
                   "type": "postback",

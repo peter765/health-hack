@@ -118,7 +118,7 @@ function connectionDB(senderID) {
       findPrescriptions(db,function(results){
         callSendAPI(senderID,{text: results});
         db.close();
-      }
+      })
 
 
   });
@@ -181,10 +181,10 @@ function handleMessage(sender_psid, received_message) {
       console.log("Connected Successfully");
 
       //calling different handler functions
-        //findPrescriptions(db,function(results){
-          //callSendAPI(senderID,{text: results});
-         // db.close();
-        //}
+        findPrescriptions(db,function(results){
+          callSendAPI(senderID,{text: results});
+          db.close();
+        }
 
 
     });

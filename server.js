@@ -133,7 +133,7 @@ var findPrescriptions = function(db, callback) {
       let pres;
       let total;
       let ret;
-      for (int i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
           date = results[i].Date;
           pres = results[i].Prescription;
           total = date + " - " + pres;

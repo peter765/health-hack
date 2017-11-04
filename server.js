@@ -118,7 +118,7 @@ function connectionDB(senderID) {
       findPrescriptions(db,function(results){
         callSendAPI(senderID,{text: results});
         db.close();
-      })
+      }
 
 
   });
@@ -129,10 +129,10 @@ var findPrescriptions = function(db, callback) {
   db.collection('Prescriptions',function (err,collection) {
     collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
       assert.equal(err, null);
-      String date;
-      String pres;
-      String total;
-      String ret;
+      let date;
+      let pres;
+      let total;
+      let ret;
       for (int i = 0; i < results.length; i++) {
           date = results[i].Date;
           pres = results[i].Prescription;
@@ -181,10 +181,10 @@ function handleMessage(sender_psid, received_message) {
       console.log("Connected Successfully");
 
       //calling different handler functions
-        findPrescriptions(db,function(results){
-          callSendAPI(senderID,{text: results});
-          db.close();
-        }
+        //findPrescriptions(db,function(results){
+          //callSendAPI(senderID,{text: results});
+         // db.close();
+        //}
 
 
     });

@@ -151,7 +151,7 @@ var findTest = function(db, callback, firstName, lastName) {
             {
               "content_type":"text",
               "title":"MRI Scans",
-              "payload":"MRI", 
+              "payload":"MRI",
             },
             {
               "content_type":"text",
@@ -405,17 +405,24 @@ function handleMessage(sender_psid, received_message) {
   if(dd<10) {
     dd = '0'+dd
   }
+
   if(mm<10) {
     mm = '0'+mm
   }
-  date = mm + '/' + dd + '/' + yyyy;
+
+date = mm + '/' + dd + '/' + yyyy;
+
   /**
    * Handle All Incoming Message Intents here, using NLP intent('nlp' key in incoming message)
    */
+
+
   // Checks if the message contains text
   if (received_message.text) {
+
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
+
 
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
@@ -475,7 +482,7 @@ function handleMessage(sender_psid, received_message) {
           } else if (document === "tests") {
 
             //calling different handler functions
-           
+
             findTests(db,function(results){
               callSendAPI(sender_psid,{text:results});
               db.close();
@@ -506,24 +513,36 @@ function handleMessage(sender_psid, received_message) {
           db.close();
         } else if(intent === "update") { //updates patient information
         if (isDoctor(sendUser.first_name, sendUser.last_name)) {
-          if (!field) {
-            //invalid field or default case
-          } else if (field === "height") {
-
-          } else if (field === "weight") {
-
-          } else if (field === "history") {
-
-          } else if (field === "notes") {
-              addNote(db, callback, firstName, lastName, date, val);
-          } else if (field === "next_steps") {
-              addStep(db, callback, firstName, lastName, date, val);
-          } else if (field === "symptoms") {
-              addSymptom(db, callback, firstName, lastName, date, val);
-          } else if (field === "meds") {
-              addPresc(db, callback, firstName, lastName, date, val);
+          if(nlptxt.notes) {
+            let val = nlptxt.notes.value;
+            if (!field) {
+              //invalid field or default case
+            } else if (field === "height") {
+                callSendAPI(sender_psid, { text: "In Progress" });
+            } else if (field === "weight") {
+                callSendAPI(sender_psid, { text: "In Progress" });
+            } else if (field === "history") {
+              callSendAPI(sender_psid, { text: "In Progress" });
+            } else if (field === "notes") {
+                addNote(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            } else if (field === "next_steps") {
+                addStep(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            } else if (field === "symptoms") {
+                addSymptom(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            } else if (field === "meds") {
+                addPresc(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            }
+            //call update functions to database
           }
-          //call update functions to database
+
 
         }
       } else if (intent === "add") {
@@ -539,7 +558,11 @@ function handleMessage(sender_psid, received_message) {
   let attachment_url = received_message.attachments[0].payload.url;
   if(isDoctor(sendUser.first_name, sendUser.last_name)) {
     MongoDB.connect(url, function (err, db) {
-      addMRIImage(db, callback, firstName, lastName, "MRI", date, attachment_url);
+
+      addMRIImage(db, function (results) {
+        callSendAPI(sender_psid, { text: "DONE" });
+      }, firstName, lastName, "MRI", date, attachment_url);
+
     });
   }
 }
@@ -636,4 +659,5 @@ function isDoctor(firstName, lastName) {
     }
   }
   return False;
+}
 }

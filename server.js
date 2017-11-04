@@ -138,10 +138,10 @@ var findProfile = function(db, callback) {
       let response;
         response = {
         "attachment": {
-          "template_type": "list",
-          "top_element_style": "compact",
+          "type": "template",
           "payload": {
-            "template_type": "generic",
+            "template_type": "list",
+            "top_element_style": "compact",
             "elements": [{
               "subtitle": "Name",
               "title": "Peter John"

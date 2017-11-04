@@ -136,7 +136,7 @@ var findProfile = function(db, callback) {
       assert.equal(err, null);
       let ret = results[0].Name + " " + results[0].LastName + "\n" + results[0].DateOfBirth + "\n" + results[0].Ethnicity + "\n" + results[0].Address+ "\n" + results[0].Allergies + "\n" + results[0].FamilyHistory + "\n" + results[0].PhoneNumber + "\n" + results[0].Height + "\n" + results[0].Weight;  
       let response;
-      response = {
+        response = {
         "attachment": {
           "type": "template",
           "payload": {
@@ -146,14 +146,10 @@ var findProfile = function(db, callback) {
               "title": "Peter John?",
               "buttons": [
                 {
-                  "type": "postback",
-                  "title": "Yes!",
-                  "payload": "yes",
-                },
-                {
-                  "type": "postback",
-                  "title": "No!",
-                  "payload": "no",
+                  
+                  "title": "DOB",
+                  "subtitle":"11/2/95"
+
                 }
               ],
             }]

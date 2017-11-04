@@ -145,7 +145,7 @@ var findProfile = function(db, callback) {
             "elements": [
             {
               "title": results[0].LastName + ", " + results[0].Name,
-              "subtitle": "Date Of Birth: " + results[0].DateOfBirth + "\n"
+              "subtitle": "Date Of Birth: " + results[0].DateOfBirth
             },
             {
                 "title": "Allergies",

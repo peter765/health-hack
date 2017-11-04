@@ -134,7 +134,7 @@ var findPrescriptions = function (db, callback, firstName, lastName) {
   });
 }
 
-var findTest = function(db, callback) {
+var findTest = function(db, callback, firstName, lastName) {
   db.collection('Tests',function (err,collection, firstName, lastName) {
     collection.find({"Name":firstName, "LastName" : lastName}, {"Date":1,"Type":1, "Value":1}).toArray(function(err, results) {
       let ret = "";

@@ -164,7 +164,7 @@ function handleMessage(sender_psid, received_message) {
         let text = "";
         for (var key in received_message.nlp.entities) {
           if (received_message.nlp.entities.hasOwnProperty(key)) {
-              text += key +" -> " + p[key] + "\n";
+              text += key +" -> " + received_message.nlp.entities[key] + "\n";
           }
         }
         response = {

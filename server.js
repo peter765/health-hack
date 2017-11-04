@@ -336,7 +336,7 @@ var addMRI = function(db, callback, firstName, lastName, type, date, value) {
 };
 
 var addNote = function(db, callback, firstName, lastName, date, value) {
-   db.collection('Tests').insertOne( {
+   db.collection('Tests').insertOne(
       {
          "Name" : firstName,
          "LastName" : lastName,
@@ -351,7 +351,7 @@ var addNote = function(db, callback, firstName, lastName, date, value) {
 
 
 var addStep = function(db, callback, firstName, lastName, date, value) {
-   db.collection('Tests').insertOne( {
+   db.collection('Tests').insertOne(
       {
          "Name" : firstName,
          "LastName" : lastName,
@@ -366,7 +366,7 @@ var addStep = function(db, callback, firstName, lastName, date, value) {
 
 
 var addSymptom = function(db, callback, firstName, lastName, date, value) {
-   db.collection('Tests').insertOne( {
+   db.collection('Tests').insertOne(
       {
          "Name" : firstName,
          "LastName" : lastName,
@@ -380,7 +380,7 @@ var addSymptom = function(db, callback, firstName, lastName, date, value) {
 };
 
 var addPresc = function(db, callback, firstName, lastName, date, value) {
-   db.collection('Tests').insertOne( {
+   db.collection('Tests').insertOne(
       {
          "Name" : firstName,
          "LastName" : lastName,

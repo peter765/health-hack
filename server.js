@@ -127,7 +127,7 @@ function connectionDB(senderID) {
 //Finds the patient Profile
 var findPrescriptions = function(db, callback) {
   db.collection('Prescriptions',function (err,collection) {
-    collection.find({"Name":"Peter"}, {"LastName" = "John"}).toArray(function(err, results) {
+    collection.find({"Name":"Peter"}, {"LastName":"John"}).toArray(function(err, results) {
       assert.equal(err, null);
       let date;
       let pres;

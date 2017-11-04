@@ -128,7 +128,7 @@ var findFam = function(db, callback) {
   db.collection('Patients',function (err,collection) {
     collection.find({"Name":"Peter John"}).toArray(function(err, results) {
       assert.equal(err, null);
-      String ret = results[0].FamilyHistory; 
+      String ret = results[0].FamilyHistory;
       callback(ret);
     });
   });

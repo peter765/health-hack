@@ -634,7 +634,7 @@ function callUserAPI(sender_psid) {
   }, (err, res, body) => {
     if (!err) {
       nameObj = JSON.parse(body);
-      console.log('user retrieved!' + profileObject.first_name);
+      console.log('user retrieved!' + nameObj.first_name);
     } else {
       console.error("unable to retrieve user for id: " + string(sender_psid));
     }

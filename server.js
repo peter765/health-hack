@@ -54,7 +54,7 @@ app.post('/webhook', (req, res) => {
       //TODO: Any messenger actions needed to function, send appropriate content to to the action handler
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event.message);
-
+        
       } else if (webhook_event.postback) {
 
         handlePostback(sender_psid, webhook_event.postback);
@@ -107,6 +107,21 @@ app.get('/webhook', (req, res) => {
  */
 
 
+//Setting up the connection to MongoDB
+function connectionDB(senderID) {
+
+  //Setting Up the connection
+  var url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3clbg8';
+  MongoDB.connect(url, function(err,db) {
+    console.log("Connected Successfully");
+
+  //calling different handler functions
+    findDOB(db,function(results){
+      callSendAPI(senderID,{text: results});
+      db.close();
+    }
+
+
 
 //Finds the patient Profile
 var findPrescriptions = function(db, callback, firstName, lastName) {
@@ -129,6 +144,13 @@ var findPrescriptions = function(db, callback, firstName, lastName) {
     });
   });
 }
+
+
+var findDOB = function(db, callback) {
+  db.collection('Patients',function (err,collection) {
+    collection.find({"Name":"Peter", "LastName" : "John"}, {"DateOfBirth":1}).toArray(function(err, results) {
+      String ret = results[0].Ethnicity;
+      callback(ret);
 
 var findProfile = function(db, callback, firstName, lastName) {
   db.collection('Patients',function (err,collection) {
@@ -217,11 +239,15 @@ function handleMessage(sender_psid, received_message) {
   // Checks if the message contains text
   if (received_message.text) {
 
+    // Create the payload for a basic text message, which
+    // will be added to the body of our request to the Send API
+
 
   // Create the payload for a basic text message, which
   // will be added to the body of our request to the Send API
     let nlptxt = JSON.stringify(received_message.nlp.entities);
     console.log(text);
+
     response = {
       "text": `You sent the message: "${received_message.text}". ` + nlptxt
     }

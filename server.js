@@ -555,4 +555,3 @@ function isDoctor(firstName, lastName) {
   }
   return False;
 }
-//hello

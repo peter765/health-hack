@@ -284,8 +284,97 @@ var findSymptoms = function(db, callback, firstName, lastName) {
   });
 }
 
+var addMRI = function(db, callback, firstName, lastName, type, date, value) {
+   db.collection('Tests').insertOne( {
+      {
+         "Name" : firstName,
+         "LastName" : lastName,
+         "Type" : type,
+         "Date" : date,
+         "Value" : value
+      }, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted an MRI into the restaurants collection.");
+    callback();
+  });
+};
+
+var addNote = function(db, callback, firstName, lastName, date, value) {
+   db.collection('Tests').insertOne( {
+      {
+         "Name" : firstName,
+         "LastName" : lastName,
+         "Date" : date,
+         "Value" : value
+      }, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted an MRI into the restaurants collection.");
+    callback();
+  });
+};
+
+
+var addStep = function(db, callback, firstName, lastName, date, value) {
+   db.collection('Tests').insertOne( {
+      {
+         "Name" : firstName,
+         "LastName" : lastName,
+         "Date" : date,
+         "Value" : value
+      }, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted an MRI into the restaurants collection.");
+    callback();
+  });
+};
+
+
+var addSymptom = function(db, callback, firstName, lastName, date, value) {
+   db.collection('Tests').insertOne( {
+      {
+         "Name" : firstName,
+         "LastName" : lastName,
+         "Date" : date,
+         "Type" : value
+      }, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted an MRI into the restaurants collection.");
+    callback();
+  });
+};
+
+var addPresc = function(db, callback, firstName, lastName, date, value) {
+   db.collection('Tests').insertOne( {
+      {
+         "Name" : firstName,
+         "LastName" : lastName,
+         "Date" : date,
+         "Prescription" : value
+      }, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted an MRI into the restaurants collection.");
+    callback();
+  });
+};
+
+
+
 function handleMessage(sender_psid, received_message) {
   let response;
+  var date = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if(dd<10) {
+    dd = '0'+dd
+  }
+
+  if(mm<10) {
+    mm = '0'+mm
+  }
+
+date = mm + '/' + dd + '/' + yyyy;
 
   /**
    * Handle All Incoming Message Intents here, using NLP intent('nlp' key in incoming message)
@@ -400,13 +489,13 @@ function handleMessage(sender_psid, received_message) {
           } else if (field === "history") {
 
           } else if (field === "notes") {
-
+              addNote(db, callback, firstName, lastName, date, val);
           } else if (field === "next_steps") {
-
+              addStep(db, callback, firstName, lastName, date, val);
           } else if (field === "symptoms") {
-
+              addSymptom(db, callback, firstName, lastName, date, val);
           } else if (field === "meds") {
-
+              addPresc(db, callback, firstName, lastName, date, val);
           }
           //call update functions to database
 
@@ -424,7 +513,7 @@ function handleMessage(sender_psid, received_message) {
   let attachment_url = received_message.attachments[0].payload.url;
   if(isDoctor(sendUser.first_name, sendUser.last_name)) {
     MongoDB.connect(url, function (err, db) {
-      addMRIImage(db, callback, firstName, lastName)
+      addMRIImage(db, callback, firstName, lastName, "MRI", date, attachment_url);
     }
   }
 }

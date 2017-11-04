@@ -143,12 +143,29 @@ var findProfile = function(db, callback) {
             "template_type": "list",
             "top_element_style": "compact",
             "elements": [{
-              "subtitle": "Name",
-              "title": "Peter John"
+              "title": results[0].LastName + ", " + results[0].Name
+              "subtitle": "Date Of Birth: " + results[0].DateOfBirth + "\n"
+                          "Ethnicity: " + results[0].Ethnicity + "\n"
+                          "Address: " + results[0].Address + "\n"
+                          "Phone Number: " + results[0].PhoneNumber + "\n"
+                          "Height: " + results[0].Height + "\n"
+                          "Weight:" + results[0].Weight;
             },
             {
-                "subtitle": "Test",
-                "title": "Test 2"
+                "title": "Allergies",
+                "subtitle": results[0].Allergies
+            },
+            {
+                "title": "Family History",
+                "subtitle": results[0].FamilyHistory
+            },
+            {
+                "title": "Past Medications",
+                "subtitle": results[0].DateOfBirth
+            },
+            {
+                "title": "Past Procedures",
+                "subtitle": results[0].DateOfBirth
             }]
           }
         }

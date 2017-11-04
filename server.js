@@ -143,15 +143,7 @@ var findProfile = function(db, callback) {
             "template_type": "generic",
             "elements": [{
               "subtitle": "Name.",
-              "title": "Peter John?",
-              "buttons": [
-                {
-                  
-                  "title": "DOB",
-                  "subtitle":"11/2/95"
-
-                }
-              ],
+              "title": "Peter John?"
             }]
           }
         }

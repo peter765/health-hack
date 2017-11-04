@@ -555,6 +555,7 @@ date = mm + '/' + dd + '/' + yyyy;
 >>>>>>> 2a547896180c1ae35b1cd75973451d651f24b42b
   }
 }
+}
 
 
 // Send the response message

@@ -643,10 +643,8 @@ function callUserAPI(sender_psid) {
       body = JSON.parse(body);
       console.log(body.first_name);
       return body;
-    }
+    });
   
-  
-
 }
 
 function isDoctor(firstName, lastName) {

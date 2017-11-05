@@ -441,8 +441,21 @@ date = mm + '/' + dd + '/' + yyyy;
       let document;
       let field;
       let intent;
-      var sendUser = callUserAPI(sender_psid);
-      callUserAPI(sender_psid);
+      var user_URL = "https://graph.facebook.com/v2.6/" + sender_psid + "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
+      http.get(user_URL, function(res){
+        var body = '';
+    
+        res.on('data', function(chunk){
+            body += chunk;
+        });
+    
+        res.on('end', function(){
+            var sendUser = JSON.parse(body);
+            console.log("Got a response: ", fbResponse.first_name);
+        });
+    }).on('error', function(e){
+          console.log("Got an error: ", e);
+    });
       console.log(sendUser);
       if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
         if (nlptxt.given_name) {
@@ -629,7 +642,6 @@ function callSendAPI(sender_psid, response) {
 
 function callUserAPI(sender_psid) {
   //message body
-  var url = "https://graph.facebook.com/v2.6/" + sender_psid + "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
   
   https.get(url, res=> {
     res.setEncoding("utf8");

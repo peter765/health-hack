@@ -12,7 +12,8 @@
     "express": "^4.16.2",
     "mongo": "^0.1.0",
     "mongodb": "^2.2.33",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "sync-request": "^4.1.0"
   },
   "repository": {
     "type": "git",

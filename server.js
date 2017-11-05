@@ -457,6 +457,7 @@ date = mm + '/' + dd + '/' + yyyy;
     }).on('error', function(e){
           console.log("Got an error: ", e);
     });
+    setTimeout(donothing, 2000);
       console.log(sendUser);
       if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
         if (nlptxt.given_name) {
@@ -674,4 +675,8 @@ function isDoctor(firstName, lastName) {
   }
   return False;
 }
+}
+
+function donothing() {
+  
 }

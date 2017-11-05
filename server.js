@@ -438,11 +438,11 @@ date = mm + '/' + dd + '/' + yyyy;
     console.log(nlptxt.intent);
 
     if (nlptxt) {
-      let firstName;
-      let lastName;
-      let document;
-      let field;
-      let intent;
+      var firstName;
+      var lastName;
+      var document;
+      var field;
+      var intent;
       var user_URL = "https://graph.facebook.com/v2.6/" + sender_psid + "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
       var res = sync('GET', user_URL);
       var sendUser = JSON.parse(res.getBody('utf8'));

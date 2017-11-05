@@ -487,9 +487,9 @@ date = mm + '/' + dd + '/' + yyyy;
       }
     }
     if (true) {
-      intent = nlptxt.intent;
+      intent = nlptxt.intent[0].value;
       console.log(intent)
-      console.log(intent.value)
+      console.log(intent[0].value)
       MongoDB.connect(url, function (err, db) {
         console.log("Connected Successfully");
 

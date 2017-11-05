@@ -442,7 +442,7 @@ date = mm + '/' + dd + '/' + yyyy;
       let field;
       let intent;
       var user_URL = "https://graph.facebook.com/v2.6/" + sender_psid + "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
-      http.get(user_URL, function(res){
+      https.get(user_URL, function(res){
         var body = '';
     
         res.on('data', function(chunk){

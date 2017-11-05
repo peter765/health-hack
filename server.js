@@ -22,7 +22,7 @@ const url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3
 const
   request = require('request'),
   express = require('express'),
-  https = require("https"),
+  sync = require('sync-request'),
   MongoDB = require('mongodb').MongoClient,
   assert = require('assert'),
   body_parser = require('body-parser'),
@@ -442,7 +442,9 @@ date = mm + '/' + dd + '/' + yyyy;
       let field;
       let intent;
       var user_URL = "https://graph.facebook.com/v2.6/" + sender_psid + "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
-      var sendUser;
+      var res = sync('GET', user_URL);
+      var sendUser = JSON.parse(res.getBody('utf8'));
+      /*
       https.get(user_URL, function(res){
         var body = '';
     
@@ -453,136 +455,136 @@ date = mm + '/' + dd + '/' + yyyy;
         res.on('end', function(){
             sendUser = JSON.parse(body);
             console.log("Got a response: ", sendUser.first_name);
-            if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
-              if (nlptxt.given_name) {
-                firstName = nlptxt.given_name.value;
-                console.log(firstName)
-              }
-              if (nlptxt.family_name) {
-                lastName = nlptxt.family_name.value;
-                console.log(lastName)
-              }
-            } else {
-              firstName = sendUser.first_name; //call following methods for sending user
-              lastName = sendUser.last_name;
-            }
-      
-            if (nlptxt.document) {
-              document = nlptxt.document.value;
-              console.log(document)
-            }
-            if (nlptxt.field) {
-              field = nlptxt.field.value;
-              console.log(field)
-            }
-          }
-          if (nlptxt.intent) {
-            intent = nlptxt.intent.value;
-            console.log(intent)
-            MongoDB.connect(url, function (err, db) {
-              console.log("Connected Successfully");
-      
-              if (intent === "profile") { //shows patient information
-                //calling different handler functions
-                if (!document) { //default case for profile
-                  if (firstName && lastName) {
-                    findProfile(db, function (results) {
-                      callSendAPI(sender_psid, results);
-                      db.close();
-                    }, firstName, lastName)
-                  }
-                } else if (document === "tests") {
-      
-                  //calling different handler functions
-      
-                  findTests(db,function(results){
-                    callSendAPI(sender_psid,{text:results});
-                    db.close();
-                  })
-      
-                } else if (document === "prescriptions") {
-                  findPrescriptions(db, function (results) {
-                    callSendAPI(sender_psid, { text: results });
-                  }, firstName, lastName);
-                  db.close();
-                }
-              } else if (document === "symptoms") {
-                findSymptoms(db, function (results) {
-                  callSendAPI(sender_psid, { text: results });
-                }, firstName, lastName);
-                db.close();
-      
-              } else if (document === "next steps") {
-                findNextSteps(db, function (results) {
-                  callSendAPI(sender_psid, { text: results });
-                }, firstName, lastName);
-                db.close();
-      
-              } else if (document === "notes") {
-                findNotes(db, function (results) {
-                  callSendAPI(sender_psid, { text: results });
-                }, firstName, lastName);
-                db.close();
-              } else if(intent === "update") { //updates patient information
-              if (isDoctor(sendUser.first_name, sendUser.last_name)) {
-                if(nlptxt.notes) {
-                  let val = nlptxt.notes.value;
-                  if (!field) {
-                    //invalid field or default case
-                  } else if (field === "height") {
-                      callSendAPI(sender_psid, { text: "In Progress" });
-                  } else if (field === "weight") {
-                      callSendAPI(sender_psid, { text: "In Progress" });
-                  } else if (field === "history") {
-                    callSendAPI(sender_psid, { text: "In Progress" });
-                  } else if (field === "notes") {
-                      addNote(db, function (results) {
-                        callSendAPI(sender_psid, { text: "DONE" });
-                      }, firstName, lastName, date, val);
-                  } else if (field === "next_steps") {
-                      addStep(db, function (results) {
-                        callSendAPI(sender_psid, { text: "DONE" });
-                      }, firstName, lastName, date, val);
-                  } else if (field === "symptoms") {
-                      addSymptom(db, function (results) {
-                        callSendAPI(sender_psid, { text: "DONE" });
-                      }, firstName, lastName, date, val);
-                  } else if (field === "meds") {
-                      addPresc(db, function (results) {
-                        callSendAPI(sender_psid, { text: "DONE" });
-                      }, firstName, lastName, date, val);
-                  }
-                  //call update functions to database
-                }
-      
-      
-              }
-            } else if (intent === "add") {
-              if(isDoctor(sendUser.first_name, sendUser.last_name)) {
-              //call add functions to database
-              //addPatient();
-              }
-            }
-        });
-      
-      } else if (received_message.attachments) {
-        // Get the URL of the message attachment
-        let attachment_url = received_message.attachments[0].payload.url;
-        if(isDoctor(sendUser.first_name, sendUser.last_name)) {
-          MongoDB.connect(url, function (err, db) {
-      
-            addMRIImage(db, function (results) {
-              callSendAPI(sender_psid, { text: "DONE" });
-            }, firstName, lastName, "MRI", date, attachment_url);
-      
-          });
-        }
-      }
         });
     }).on('error', function(e){
           console.log("Got an error: ", e);
+    }); */
+    
+      if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
+        if (nlptxt.given_name) {
+          firstName = nlptxt.given_name.value;
+          console.log(firstName)
+        }
+        if (nlptxt.family_name) {
+          lastName = nlptxt.family_name.value;
+          console.log(lastName)
+        }
+      } else {
+        firstName = sendUser.first_name; //call following methods for sending user
+        lastName = sendUser.last_name;
+      }
+
+      if (nlptxt.document) {
+        document = nlptxt.document.value;
+        console.log(document)
+      }
+      if (nlptxt.field) {
+        field = nlptxt.field.value;
+        console.log(field)
+      }
+    }
+    if (nlptxt.intent) {
+      intent = nlptxt.intent.value;
+      console.log(intent)
+      MongoDB.connect(url, function (err, db) {
+        console.log("Connected Successfully");
+
+        if (intent === "profile") { //shows patient information
+          //calling different handler functions
+          if (!document) { //default case for profile
+            if (firstName && lastName) {
+              findProfile(db, function (results) {
+                callSendAPI(sender_psid, results);
+                db.close();
+              }, firstName, lastName)
+            }
+          } else if (document === "tests") {
+
+            //calling different handler functions
+
+            findTests(db,function(results){
+              callSendAPI(sender_psid,{text:results});
+              db.close();
+            })
+
+          } else if (document === "prescriptions") {
+            findPrescriptions(db, function (results) {
+              callSendAPI(sender_psid, { text: results });
+            }, firstName, lastName);
+            db.close();
+          }
+        } else if (document === "symptoms") {
+          findSymptoms(db, function (results) {
+            callSendAPI(sender_psid, { text: results });
+          }, firstName, lastName);
+          db.close();
+
+        } else if (document === "next steps") {
+          findNextSteps(db, function (results) {
+            callSendAPI(sender_psid, { text: results });
+          }, firstName, lastName);
+          db.close();
+
+        } else if (document === "notes") {
+          findNotes(db, function (results) {
+            callSendAPI(sender_psid, { text: results });
+          }, firstName, lastName);
+          db.close();
+        } else if(intent === "update") { //updates patient information
+        if (isDoctor(sendUser.first_name, sendUser.last_name)) {
+          if(nlptxt.notes) {
+            let val = nlptxt.notes.value;
+            if (!field) {
+              //invalid field or default case
+            } else if (field === "height") {
+                callSendAPI(sender_psid, { text: "In Progress" });
+            } else if (field === "weight") {
+                callSendAPI(sender_psid, { text: "In Progress" });
+            } else if (field === "history") {
+              callSendAPI(sender_psid, { text: "In Progress" });
+            } else if (field === "notes") {
+                addNote(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            } else if (field === "next_steps") {
+                addStep(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            } else if (field === "symptoms") {
+                addSymptom(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            } else if (field === "meds") {
+                addPresc(db, function (results) {
+                  callSendAPI(sender_psid, { text: "DONE" });
+                }, firstName, lastName, date, val);
+            }
+            //call update functions to database
+          }
+
+
+        }
+      } else if (intent === "add") {
+        if(isDoctor(sendUser.first_name, sendUser.last_name)) {
+        //call add functions to database
+        //addPatient();
+        }
+      }
+  });
+
+} else if (received_message.attachments) {
+  // Get the URL of the message attachment
+  let attachment_url = received_message.attachments[0].payload.url;
+  if(isDoctor(sendUser.first_name, sendUser.last_name)) {
+    MongoDB.connect(url, function (err, db) {
+
+      addMRIImage(db, function (results) {
+        callSendAPI(sender_psid, { text: "DONE" });
+      }, firstName, lastName, "MRI", date, attachment_url);
+
     });
-  
+  }
+}
 
 
 // Send the response message

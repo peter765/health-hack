@@ -429,6 +429,7 @@ date = mm + '/' + dd + '/' + yyyy;
     // will be added to the body of our request to the Send API
     let nlptxt = JSON.stringify(received_message.nlp.entities);
     console.log(nlptxt);
+    let nlptxt = JSON.parse(nlptxt);
 
     response = {
       "text": `You sent the message: "${received_message.text}". ` + nlptxt

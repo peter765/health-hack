@@ -535,7 +535,7 @@ date = mm + '/' + dd + '/' + yyyy;
           db.close();
         } else if(intent === "update") { //updates patient information
           console.log("In Tests");
-          if (isDoctor(sendUser.first_name, sendUser.last_name)) {
+          if (true) {
           if(nlptxt.notes) {
             let val = nlptxt.notes[0].value;
             if (!field) {

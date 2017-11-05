@@ -578,16 +578,15 @@ date = mm + '/' + dd + '/' + yyyy;
           });
         }
       }
-      
-      
-      // Send the response message
-      callSendAPI(sender_psid, response);
         });
     }).on('error', function(e){
           console.log("Got an error: ", e);
     });
-    
-      
+  
+
+
+// Send the response message
+callSendAPI(sender_psid, response);
 }
 
 /**

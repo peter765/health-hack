@@ -671,10 +671,10 @@ function isDoctor(firstName, lastName) {
   }); we be hardcodin boiz **/
   if (firstName == "Rohit") {
     if (lastName == "Ganesan") {
-      return True;
+      return true;
     }
   }
-  return False;
+  return false;
 }
 }
 

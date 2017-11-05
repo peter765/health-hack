@@ -550,7 +550,7 @@ date = mm + '/' + dd + '/' + yyyy;
                 addNote(db, function (results) {
                   callSendAPI(sender_psid, { text: "DONE" });
                 }, firstName, lastName, date, val);
-            } else if (field === "next_steps") {
+            } else if (field === "next steps") {
                 addStep(db, function (results) {
                   callSendAPI(sender_psid, { text: "DONE" });
                 }, firstName, lastName, date, val);
@@ -558,7 +558,7 @@ date = mm + '/' + dd + '/' + yyyy;
                 addSymptom(db, function (results) {
                   callSendAPI(sender_psid, { text: "DONE" });
                 }, firstName, lastName, date, val);
-            } else if (field === "meds") {
+            } else if (field === "prescriptions") {
                 addPresc(db, function (results) {
                   callSendAPI(sender_psid, { text: "DONE" });
                 }, firstName, lastName, date, val);

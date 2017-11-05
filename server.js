@@ -451,7 +451,7 @@ date = mm + '/' + dd + '/' + yyyy;
     
         res.on('end', function(){
             var sendUser = JSON.parse(body);
-            console.log("Got a response: ", fbResponse.first_name);
+            console.log("Got a response: ", sendUser.first_name);
         });
     }).on('error', function(e){
           console.log("Got an error: ", e);

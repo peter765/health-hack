@@ -489,7 +489,6 @@ date = mm + '/' + dd + '/' + yyyy;
     if (true) {
       intent = nlptxt.intent[0].value;
       console.log(intent)
-      console.log(intent[0].value)
       MongoDB.connect(url, function (err, db) {
         console.log("Connected Successfully");
 
@@ -535,7 +534,8 @@ date = mm + '/' + dd + '/' + yyyy;
           }, firstName, lastName);
           db.close();
         } else if(intent === "update") { //updates patient information
-        if (isDoctor(sendUser.first_name, sendUser.last_name)) {
+          console.log("In Tests");
+          if (isDoctor(sendUser.first_name, sendUser.last_name)) {
           if(nlptxt.notes) {
             let val = nlptxt.notes[0].value;
             if (!field) {

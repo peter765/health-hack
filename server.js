@@ -442,6 +442,7 @@ date = mm + '/' + dd + '/' + yyyy;
       let field;
       let intent;
       var user_URL = "https://graph.facebook.com/v2.6/" + sender_psid + "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
+      var sendUser;
       https.get(user_URL, function(res){
         var body = '';
     
@@ -450,7 +451,7 @@ date = mm + '/' + dd + '/' + yyyy;
         });
     
         res.on('end', function(){
-            var sendUser = JSON.parse(body);
+            sendUser = JSON.parse(body);
             console.log("Got a response: ", sendUser.first_name);
         });
     }).on('error', function(e){

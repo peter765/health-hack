@@ -434,6 +434,7 @@ date = mm + '/' + dd + '/' + yyyy;
       "text": `You sent the message: "${received_message.text}". ` + nlptxt
     }
     //Setting up the connection to MongoDB
+    console.log(nlptxt.intent);
 
     if (nlptxt) {
       let firstName;

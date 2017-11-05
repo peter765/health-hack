@@ -483,6 +483,8 @@ date = mm + '/' + dd + '/' + yyyy;
         console.log(field)
       }
     }
+    console.log(nlptxt.intent)
+    console.log(if(nlptxt.intent));
     if (nlptxt.intent) {
       intent = nlptxt.intent.value;
       console.log(intent)

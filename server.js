@@ -483,9 +483,7 @@ date = mm + '/' + dd + '/' + yyyy;
         console.log(field)
       }
     }
-    console.log(nlptxt.intent)
-    console.log(if(nlptxt.intent));
-    if (nlptxt.intent) {
+    if (true) {
       intent = nlptxt.intent.value;
       console.log(intent)
       MongoDB.connect(url, function (err, db) {

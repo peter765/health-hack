@@ -494,7 +494,7 @@ date = mm + '/' + dd + '/' + yyyy;
           if (!document) { //default case for profile
             if (firstName && lastName) {
               findProfile(db, function (results) {
-                callSendAPI(sender_psid, results);
+                callSendAPI(sender_psid, { text:results });
                 db.close();
               }, firstName, lastName)
             }

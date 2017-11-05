@@ -22,6 +22,7 @@ const url = 'mongodb://health-hack:hackgt2017@ds061355.mlab.com:61355/heroku_sn3
 const
   request = require('request'),
   express = require('express'),
+  https = require("https"),
   MongoDB = require('mongodb').MongoClient,
   assert = require('assert'),
   body_parser = require('body-parser'),
@@ -630,20 +631,20 @@ function callSendAPI(sender_psid, response) {
 
 function callUserAPI(sender_psid) {
   //message body
-  var params = "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
-  let nameObj;
-  request({
-    "uri": "https://graph.facebook.com/v2.6/" + sender_psid + params,
-    "method": "GET"
-  }, (err, res, body) => {
-    if (!err) {
-      nameObj = JSON.parse(body);
-      console.log('user retrieved!' + nameObj.first_name);
-      return nameObj;
-    } else {
-      console.error("unable to retrieve user for id: " + sender_psid);
+  var url = "https://graph.facebook.com/v2.6/" + sender_psid + "?fields=first_name,last_name,profile_pic&access_token=EAACAGZCsviHoBAJIwkUL1bkaWnZAsmJepegUo4ZCOabkLR1erkONb9Rp11laQi6W9f6QdRY7RtdJ1ys60fRHYwzoLIZCkmauhQIz2m0y4Byum1VArODyuTutGr4HeCd6CNZA9OeP9E4bpJKZAJehYBqsP6eWSYdErPrJn4ddKqUgZDZD"
+  
+  https.get(url, res=> {
+    res.setEncoding("utf8");
+    let body = "";
+    res.on("data", data => {
+      body += data;
+    });
+    res.on("end", () => {
+      body = JSON.parse(body);
+      console.log(body.first_name);
+      return body;
     }
-  });
+  
   
 
 }

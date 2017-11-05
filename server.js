@@ -140,7 +140,7 @@ var findTest = function(db, callback, firstName, lastName) {
     collection.find({"Name":firstName, "LastName" : lastName}, {"Date":1,"Type":1, "Value":1}).toArray(function(err, results) {
       let ret = "";
       for(var i = 0; i < results.length; i++) {
-        ret += results[i].Date + "\n" + results[i].Type + "\n" + results[i].Value;
+        ret += results[i].Date + "\n" + results[i].Type + "\n" + results[i][0].value;
       }
 
       let response;
@@ -264,7 +264,7 @@ var findNotes = function(db, callback, firstName, lastName) {
       let ret;
       for (var i = 0; i < results.length; i++) {
           date = results[i].Date;
-          pres = results[i].Value;
+          pres = results[i][0].value;
           total = date + " - " + pres;
           ret += total + "\n";
       }
@@ -293,7 +293,7 @@ var findProcedures = function(db, callback, firstName, lastName) {
       let ret;
       for (var i = 0; i < results.length; i++) {
           date = results[i].Date;
-          pres = results[i].Value;
+          pres = results[i][0].value;
           total = date + " - " + pres;
           ret += total + "\n";
       }
@@ -465,11 +465,11 @@ date = mm + '/' + dd + '/' + yyyy;
     
       if (isDoctor(sendUser.first_name, sendUser.last_name)) { //call following methods for inquired user if a doctor
         if (nlptxt.given_name) {
-          firstName = nlptxt.given_name.value;
+          firstName = nlptxt.given_name[0].value;
           console.log(firstName)
         }
         if (nlptxt.family_name) {
-          lastName = nlptxt.family_name.value;
+          lastName = nlptxt.family_name[0].value;
           console.log(lastName)
         }
       } else {
@@ -478,11 +478,11 @@ date = mm + '/' + dd + '/' + yyyy;
       }
 
       if (nlptxt.document) {
-        document = nlptxt.document.value;
+        document = nlptxt.document[0].value;
         console.log(document)
       }
       if (nlptxt.field) {
-        field = nlptxt.field.value;
+        field = nlptxt.field[0].value;
         console.log(field)
       }
     }
@@ -537,7 +537,7 @@ date = mm + '/' + dd + '/' + yyyy;
         } else if(intent === "update") { //updates patient information
         if (isDoctor(sendUser.first_name, sendUser.last_name)) {
           if(nlptxt.notes) {
-            let val = nlptxt.notes.value;
+            let val = nlptxt.notes[0].value;
             if (!field) {
               //invalid field or default case
             } else if (field === "height") {
